@@ -6,14 +6,14 @@
 
 [![Fabric Icon](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy-minimal/supported/fabric_vector.svg)](https://fabricmc.net/)
 [![Quilt Icon](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy-minimal/supported/quilt_vector.svg)](https://quiltmc.org/)
+[![NeoForge Icon](https://raw.githubusercontent.com/Solmeye/Mirror-Anticheat/2b0ed26bc9fd49f2f1c6b8aa289dbb81cd0db956/neoforge.svg)](https://neoforged.net/)
+[![Forge Icon](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy-minimal/supported/forge_vector.svg)](files.minecraftforge.net)
 
 </center>
 
 ___
 
-## Versions for 1.21-1.21.11 are deprecated. I strongly recommend not using them.
-I do not recommend using this mod on public servers, due to bugs and anti-cheat issues.
-I don't even use this mod myself.
+## Versions for 1.21.x are deprecated. I strongly recommend not using them.
 
 ## What's Eslium ?
 Eslium is a project to predict more things client-side.
@@ -21,10 +21,10 @@ For example, if you eat food, the animation only ends when the server indicates 
 This mod fixes that and therefore compensates for the ping.
 
 Currently, this mod compensates for:
-- (in developement)
+- Swap
 
 Coming Soon™ :
-- Consumables (in development)
+- Consumables
 - Consumables
 - End Crystal
 - Elytra
@@ -43,7 +43,6 @@ Coming Soon™ :
 - Entity pose
 - Weapons
 - Minecart
-- Swap
 - Wind charge
 - Inventory
 - Jukebox
@@ -74,19 +73,13 @@ Coming Soon™ :
 - Scaffolding
 - Knockback
 - Fall damage
-- Interactions with blocks
-- Interactions with items
-- Interactions with entities
 
 ## How it works ?
 Instead of waiting for an indication from the server, the client will simulate it at the right time, without delay.
 
 ## Disclaimer
+**Versions for 1.21.x are deprecated. I strongly recommend not using them.**
 This mod does NOT give any advantages, it is not a cheat. It only compensates for the ping.
-Since version 4.0, everything has been done to ensure that no anti-cheat flags are possible.
-
-**Versions for 1.21-1.21.11 are deprecated. I strongly recommend not using them.**
-
 
 Allowed on servers such as:
 - `PvPClub`
