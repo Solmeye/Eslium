@@ -47,6 +47,7 @@ When using any type of minecart on a rail, the spawn of the minecart is predicte
 
 
 ## Predictions Coming Soon™ :
+- Lunge enchant
 - End Crystal
 - Cooldowns
 - Consumables
@@ -93,7 +94,6 @@ When using any type of minecart on a rail, the spawn of the minecart is predicte
 
 ## Disclaimer
 Versions for 1.21.x are deprecated. I strongly recommend not using them.
-This mod does not give any advantages, it is not a cheat. It only compensates for the ping.
 
 Allowed on servers such as:
 - `PvPClub`
@@ -111,8 +111,29 @@ This mod uses mixins to inject code into Minecraft code. During certain actions,
 ### Is this likely to break the desynchronization of the client-server tick loop?
 Not really. This desynchronization is replicated by an artificial time delay of half a tick.
 
+### Is this mod a cheat?
+You might think this mod is a cheat because it gives an advantage to those who don't have it, and these kinds of mods often raise these kinds of questions.
+
+Here are a few points :
+
+- Some people naturally have lower ping, yet it is not considered cheating
+
+- It is possible to have 0ms ping behavior in vanilla, but it is also possible to have it (as far as it is implemented) with any ping and Eslium.
+
+- Some mods remain accepted by the community but their behavior is impossible to reproduce in vanilla.
+I'm thinking in particular of Health Indicator, Armor HUD, AppleSkin, FreeCam, and Ok Zoomer.
+
+- This mod has been accepted by Modrinth and some PvP servers.
+
+- Sodium optimize FPS, Eslium optimize the ping's impact.
+
+- Other ping's optimizer are allowed, such as Marlow's Crystal Optimizer, Hero's Elytra Optimizer, Consumable Optimizer or Anchor Optimizer
+
+### Will versions 4.0+ be backported for minecraft 1.21.x?
+Probably. At least for 1.21.11 I think.
+
 ## Compatibility
 Eslium should work on any client.
 
 ## Support me!
-Join my Hardcore Minecraft server: `80.91.86.136:51965`
+Join my Hardcore Minecraft server: `38.143.19.130:51965`
