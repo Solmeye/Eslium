@@ -3,6 +3,7 @@
 [![Modrinth Icon](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy-minimal/available/modrinth_vector.svg)](https://modrinth.com/project/zaVwh7an)
 [![Github Icon](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy-minimal/available/github_vector.svg)](https://github.com/Solmeye/Eslium)
 [![Discord Icon](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy-minimal/social/discord-singular_vector.svg)](https://discord.gg/FVq3j5heAc)
+[![YouTube Icon](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy-minimal/social/youtube-singular_vector.svg)](https://www.youtube.com/channel/UCti7KF7Qx8x7Nb0Xals_odQ)
 
 [![Fabric Icon](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy-minimal/supported/fabric_vector.svg)](https://fabricmc.net/)
 [![Quilt Icon](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy-minimal/supported/quilt_vector.svg)](https://quiltmc.org/)
@@ -11,32 +12,12 @@
 
 </center>
 
-___
-
 ## What's Eslium ?
 Eslium is a project to predict more things client-side.
-For example, if you swap items with your secondary hand, you must wait for the server to exchange it for you
+For example, if you want to use a Crystal, you must wait for the server validation for it to appear.
 This mod fixes that and therefore compensates for the ping.
 
 ## Predictions implemented
-
-<details>
-<summary>Swap</summary>
-
-When pressing the key to exchange the item from the main hand to the offhand, outside of an inventory, the swap is predicted
-
-</details>
-
-
-<details>
-<summary>Inventory</summary>
-
-When the inventory is resynchronized by the server, if the inventory indicated by the server corresponds to that which the client previously had, the synchronization is canceled
-
-This avoids rollbacks due to delayed resynchronization
-
-</details>
-
 
 <details>
 <summary>Minecarts</summary>
@@ -45,14 +26,21 @@ When using any type of minecart on a rail, the spawn of the minecart is predicte
 
 </details>
 
+<details>
+<summary>End Crystal</summary>
+
+When using an end crystal on obisidian or bedrock, the spawn of the end crystal is predicted
+
+</details>
 
 ## Predictions Coming Soon™ :
 - Lunge enchant
-- End Crystal
 - Cooldowns
 - Consumables
 - Elytra
 - Firework rocket
+- Swap
+- Inventory
 - Entity pose
 - Wind charge
 - Jukebox
@@ -92,6 +80,54 @@ When using any type of minecart on a rail, the spawn of the minecart is predicte
 - Interaction with entities
 - Interaction with items
 
+
+## Configuration
+
+<details>
+<summary>Default configuration</summary>
+
+```
+{
+  "enabled": true,
+  "latencyMargin": 25,
+  "version": 1,
+  "safeMode": false,
+  "crystal": {
+    "enabled": true
+  },
+  "minecart": {
+    "enabled": true
+  }
+}
+```
+
+</details>
+
+<details>
+<summary>Explanation</summary>
+
+- `enabled`
+Enable or disable the mod
+
+- `latencyMargin`
+Ping to add to your estimated latency. Useful to avoid considering certain actions that are denied by the server due to a latency spike. Is supposed to represent the current latency fluctuation of your Internet connection. In ms.
+
+- `version`
+Version of the configuration. Do not touch!
+
+- `safeMode`
+Reduces the likelihood of being flagged by an impossible anticheat. Disabled, the probability is already low. Warning : This can lead to bizarre behavior.
+
+- `crystal`
+  - `enabled`
+  Enable or disable the crystal prediction
+
+- `minecart`
+  - `enabled`
+  Enable or disable the minecart prediction
+
+</details>
+
 ## Disclaimer
 Versions for 1.21.x are deprecated. I strongly recommend not using them.
 
@@ -108,9 +144,6 @@ However, a bug is not inevitable, so it is still recommended to request authoriz
 ### How it works ?
 This mod uses mixins to inject code into Minecraft code. During certain actions, if implemented, the behavior of a vanilla server is replicated on the client side. 
 
-### Is this likely to break the desynchronization of the client-server tick loop?
-Not really. This desynchronization is replicated by an artificial time delay of half a tick.
-
 ### Is this mod a cheat?
 You might think this mod is a cheat because it gives an advantage to those who don't have it, and these kinds of mods often raise these kinds of questions.
 
@@ -125,12 +158,12 @@ I'm thinking in particular of Health Indicator, Armor HUD, AppleSkin, FreeCam, a
 
 - This mod has been accepted by Modrinth and some PvP servers.
 
-- Sodium optimize FPS, Eslium optimize the ping's impact.
+- Sodium optimize FPS, Lithium optimize MSPT, Eslium optimize the ping's impact.
 
 - Other ping's optimizer are allowed, such as Marlow's Crystal Optimizer, Hero's Elytra Optimizer, Consumable Optimizer or Anchor Optimizer
 
 ### Will versions 4.0+ be backported for minecraft 1.21.x?
-Probably. At least for 1.21.11 I think.
+No.
 
 ## Compatibility
 Eslium should work on any client.
