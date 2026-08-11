@@ -1,18 +1,18 @@
 <center>
 
-[![Modrinth Icon](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy-minimal/available/modrinth_vector.svg)](https://modrinth.com/project/zaVwh7an)
-[![Github Icon](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy-minimal/available/github_vector.svg)](https://github.com/Solmeye/Eslium)
-[![Discord Icon](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy-minimal/social/discord-singular_vector.svg)](https://discord.gg/FVq3j5heAc)
-[![YouTube Icon](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy-minimal/social/youtube-singular_vector.svg)](https://www.youtube.com/channel/UCti7KF7Qx8x7Nb0Xals_odQ)
+## Eslium
 
-[![Fabric Icon](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy-minimal/supported/fabric_vector.svg)](https://fabricmc.net/)
-[![Quilt Icon](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy-minimal/supported/quilt_vector.svg)](https://quiltmc.org/)
-[![NeoForge Icon](https://raw.githubusercontent.com/Solmeye/Mirror-Anticheat/2b0ed26bc9fd49f2f1c6b8aa289dbb81cd0db956/neoforge.svg)](https://neoforged.net/)
-[![Forge Icon](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy-minimal/supported/forge_vector.svg)](https://files.minecraftforge.net/net/minecraftforge/forge/)
+[![Modrinth Icon](https://cdn.sqidgeon.uk/cozy/available/modrinth_vector.svg)](https://modrinth.com/project/zaVwh7an)
+[![Github Icon](https://cdn.sqidgeon.uk/cozy/available/github_vector.svg)](https://github.com/Solmeye/Eslium)
+[![Discord Icon](https://cdn.sqidgeon.uk/cozy/social/discord-plural_vector.svg)](https://discord.gg/FVq3j5heAc)
+
+[![Fabric Icon](https://cdn.sqidgeon.uk/cozy/supported/fabric_vector.svg)](https://fabricmc.net/)
+[![Quilt Icon](https://cdn.sqidgeon.uk/cozy/supported/quilt_vector.svg)](https://quiltmc.org/)
+[![NeoForge Icon](https://cdn.sqidgeon.uk/cozy/supported/neoforge_vector.svg)](https://neoforged.net/)
+[![Forge Icon](https://cdn.sqidgeon.uk/cozy/supported/forge_vector.svg)](https://files.minecraftforge.net/net/minecraftforge/forge/)
 
 </center>
 
-## What's Eslium ?
 Eslium is a project to predict more things client-side.
 For example, if you want to use a Crystal, you must wait for the server validation for it to appear.
 This mod fixes that and therefore compensates for the ping.
@@ -33,14 +33,20 @@ When using an end crystal on obisidian or bedrock, the spawn of the end crystal 
 
 </details>
 
-## Predictions Coming Soon™ :
+## Predictions ComingSoon™ :
+
+<details>
+<summary>Predictions ComingSoon™</summary>
+
 - Lunge enchant
+- Anchors
 - Cooldowns
 - Consumables
 - Elytra
 - Firework rocket
 - Swap
 - Inventory
+- Cushion
 - Entity pose
 - Wind charge
 - Jukebox
@@ -80,6 +86,7 @@ When using an end crystal on obisidian or bedrock, the spawn of the end crystal 
 - Interaction with entities
 - Interaction with items
 
+</details>
 
 ## Configuration
 
@@ -89,15 +96,14 @@ When using an end crystal on obisidian or bedrock, the spawn of the end crystal 
 ```
 {
   "enabled": true,
-  "latencyMargin": 25,
   "version": 1,
-  "safeMode": false,
   "crystal": {
     "enabled": true
   },
   "minecart": {
     "enabled": true
-  }
+  },
+  "simulatedDesync": 50
 }
 ```
 
@@ -106,39 +112,20 @@ When using an end crystal on obisidian or bedrock, the spawn of the end crystal 
 <details>
 <summary>Explanation</summary>
 
-- `enabled`
-Enable or disable the mod
+- `enabled` Enable or disable the mod
 
-- `latencyMargin`
-Ping to add to your estimated latency. Useful to avoid considering certain actions that are denied by the server due to a latency spike. Is supposed to represent the current latency fluctuation of your Internet connection. In ms.
-
-- `version`
-Version of the configuration. Do not touch!
-
-- `safeMode`
-Reduces the likelihood of being flagged by an impossible anticheat. Disabled, the probability is already low. Warning : This can lead to bizarre behavior.
+- `version` Version of the configuration. Do not touch!
 
 - `crystal`
-  - `enabled`
-  Enable or disable the crystal prediction
+  - `enabled` Enable or disable the crystal prediction
 
 - `minecart`
-  - `enabled`
-  Enable or disable the minecart prediction
+  - `enabled` Enable or disable the minecart prediction
+
+- `simulatedDesync` Percentage of maximum client-server tick desynchronization time used to simulate vanilla desynchronization. Useful for replicating vanilla desynchronization and ensuring statistical fairness. Note that in singleplayer this would be `0`, and on a local server this would be at `50` on average<br>`min`: 0 `max`: 100
+
 
 </details>
-
-## Disclaimer
-Versions for 1.21.x are deprecated. I strongly recommend not using them.
-
-Allowed on servers such as:
-- `PvPClub`
-- `FadedMC`
-- `Turtled`
-- `CatPvP`
-
-Versions 4.0+ are designed not to trigger anticheats.
-However, a bug is not inevitable, so it is still recommended to request authorization for this mod before using it on a server.
 
 ## FAQ
 ### How it works ?
@@ -156,17 +143,38 @@ Here are a few points :
 - Some mods remain accepted by the community but their behavior is impossible to reproduce in vanilla.
 I'm thinking in particular of Health Indicator, Armor HUD, AppleSkin, FreeCam, and Ok Zoomer.
 
-- This mod has been accepted by Modrinth and some PvP servers.
+- This mod has been accepted by Modrinth and some PvP servers, such as
+  - `PvPClub`
+  - `FadedMC`
+  - `Turtled`
+  - `CatPvP`
+  - `Minemen`
 
-- Sodium optimize FPS, Lithium optimize MSPT, Eslium optimize the ping's impact.
+- Sodium optimize FPS, Lithium optimize MSPT / TPS, Eslium optimize the ping's impact.
 
 - Other ping's optimizer are allowed, such as Marlow's Crystal Optimizer, Hero's Elytra Optimizer, Consumable Optimizer or Anchor Optimizer
 
-### Will versions 4.0+ be backported for minecraft 1.20-1.21.11?
-Yes, it is planned.
+### Is this likely to break the desynchronization of the client-server tick loop?
+No. This desynchronization is simulated by an artificial time delay of half a tick.
+
+### Am I going to flag the anticheats?
+Versions 4.0+ are designed to not trigger anticheats (that's why I **_STRONGLY_** recommend only using these versions).
+The way it works is by only adding the entities client-side when they are rendered and at the moment of their ticking, without letting them interacting with anything real.
+So no, you won't if you use the recommended versions.
+
+Note: I played for months with this mod and I have never been banned
+
+### Which branch should I install?
+- Release versions are safe to use
+
+- Beta might behave weirdly but shouldn't flag any anticheat
+
+- Alpha versions are unstable and are only here to test the new functionnalities and fixes, regardless of their stability.
+
+For a casual player, beta or release versions are recommended.
 
 ## Compatibility
 Eslium should work on any client.
 
 ## Support me!
-Join my Hardcore Minecraft server: `38.143.19.130:51965`
+Join my Hardcore Minecraft server: [HardcoreSMP](https://modrinth.com/server/hardcoresmp_) - `38.143.19.130`
