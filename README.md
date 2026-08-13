@@ -82,9 +82,6 @@ When using an end crystal on obisidian or bedrock, the spawn of the end crystal 
 - Scaffolding
 - Knockback
 - Fall damage
-- Interaction with blocks
-- Interaction with entities
-- Interaction with items
 
 </details>
 
@@ -158,7 +155,7 @@ I'm thinking in particular of Health Indicator, Armor HUD, AppleSkin, FreeCam, a
 No. This desynchronization is simulated by an artificial time delay of half a tick.
 
 ### Am I going to flag the anticheats?
-Versions 4.0+ are designed to not trigger anticheats (that's why I **_STRONGLY_** recommend only using these versions).
+Versions 4.0+ are designed to not trigger anticheats.
 The way it works is by only adding the entities client-side when they are rendered and at the moment of their ticking, without letting them interacting with anything real.
 So no, you won't if you use the recommended versions.
 
