@@ -6,11 +6,6 @@
 [![Github Icon](https://cdn.sqidgeon.uk/cozy/available/github_vector.svg)](https://github.com/Solmeye/Eslium)
 [![Discord Icon](https://cdn.sqidgeon.uk/cozy/social/discord-plural_vector.svg)](https://discord.gg/FVq3j5heAc)
 
-[![Fabric Icon](https://cdn.sqidgeon.uk/cozy/supported/fabric_vector.svg)](https://fabricmc.net/)
-[![Quilt Icon](https://cdn.sqidgeon.uk/cozy/supported/quilt_vector.svg)](https://quiltmc.org/)
-[![NeoForge Icon](https://cdn.sqidgeon.uk/cozy/supported/neoforge_vector.svg)](https://neoforged.net/)
-[![Forge Icon](https://cdn.sqidgeon.uk/cozy/supported/forge_vector.svg)](https://files.minecraftforge.net/net/minecraftforge/forge/)
-
 </center>
 
 Eslium is a project to predict more things client-side.
@@ -54,7 +49,6 @@ When using an end crystal on obisidian or bedrock, the spawn of the end crystal 
 - Pickup entities
 - Trident
 - Weapons
-- Jukebox
 - Bottle o' Enchanting
 - Experience
 - Ender Pearls
@@ -155,7 +149,7 @@ I'm thinking in particular of Health Indicator, Armor HUD, AppleSkin, FreeCam, a
 No. This desynchronization is simulated by an artificial time delay of half a tick.
 
 ### Am I going to flag the anticheats?
-Versions 4.0+ are designed to not trigger anticheats.
+This mod is designed to not trigger anticheats.
 The way it works is by only adding the entities client-side when they are rendered and at the moment of their ticking, without letting them interacting with anything real.
 So no, you won't if you use the recommended versions.
 
@@ -166,7 +160,7 @@ Note: I played for months with this mod and I have never been banned
 
 - Beta might behave weirdly but shouldn't flag any anticheat
 
-- Alpha versions are unstable and are only here to test the new functionnalities and fixes, regardless of their stability.
+- Alpha versions may be unstable and are only here to test the new functionnalities and fixes, regardless of their stability.
 
 For a casual player, beta or release versions are recommended.
 
