@@ -34,8 +34,8 @@ public class UseItemOnPacket {
                 //Vec3 location = blockHit.getLocation();
                 BlockPos pos = blockHit.getBlockPos();
 
-                int maxY = level.getMaxY();
-                int minY = level.getMinY();
+                int maxY = level.getMaxBuildHeight();
+                int minY = level.getMinBuildHeight();
                 if (pos.getY() > maxY) {
                     //player.sendBuildLimitMessage(true, maxY);
                 } else if (pos.getY() < minY) {
@@ -47,7 +47,7 @@ public class UseItemOnPacket {
                         //return InteractionResult.FAIL;
                         return;
                     }
-                    if (player.gameMode() == GameType.SPECTATOR) {
+                    if (player.isSpectator()) {
                         return;
                     }
 
@@ -93,7 +93,7 @@ public class UseItemOnPacket {
 
                     if (
                         !itemStack.isEmpty() &&
-                        !player.getCooldowns().isOnCooldown(itemStack)
+                        !player.getCooldowns().isOnCooldown(itemStack.getItem())
                     ) {
                         UseOnContext context = new UseOnContext(
                             player,

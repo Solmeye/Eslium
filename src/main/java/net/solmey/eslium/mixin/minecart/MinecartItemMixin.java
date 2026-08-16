@@ -9,9 +9,15 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntitySpawnReason;
-import net.minecraft.world.entity.vehicle.minecart.AbstractMinecart;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.vehicle.AbstractMinecart;
+import net.minecraft.world.entity.vehicle.Minecart;
+import net.minecraft.world.entity.vehicle.MinecartChest;
+import net.minecraft.world.entity.vehicle.MinecartCommandBlock;
+import net.minecraft.world.entity.vehicle.MinecartFurnace;
+import net.minecraft.world.entity.vehicle.MinecartHopper;
+import net.minecraft.world.entity.vehicle.MinecartSpawner;
+import net.minecraft.world.entity.vehicle.MinecartTNT;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.MinecartItem;
 import net.minecraft.world.item.context.UseOnContext;
@@ -19,7 +25,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseRailBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.RailShape;
-import net.minecraft.world.phys.Vec3;
 import net.solmey.eslium.Eslium;
 import net.solmey.eslium.config.ConfigManager;
 import net.solmey.eslium.server.MixinMode;
@@ -59,30 +64,30 @@ public class MinecartItemMixin {
 			? blockState.getValue(((BaseRailBlock)blockState.getBlock()).getShapeProperty())
 			: RailShape.NORTH_SOUTH;
 		double offset = 0.0;
-		if (shape.isSlope()) {
+		if (shape.isAscending()) {
 			offset = 0.5;
 		}
 
-		Vec3 spawnPos = new Vec3(pos.getX() + 0.5, pos.getY() + 0.0625 + offset, pos.getZ() + 0.5);
-		AbstractMinecart cart = AbstractMinecart.createMinecart(
-			level, spawnPos.x, spawnPos.y, spawnPos.z, minecartItem.type, EntitySpawnReason.DISPENSER, itemStack, context.getPlayer()
-		);
-		if (cart == null) {
-			callbackInfoReturnable.setReturnValue(InteractionResult.FAIL);
-			return;
-		}
 
-		if (AbstractMinecart.useExperimentalMovement(level)) {
-			for (Entity entity : level.getEntities(null, cart.getBoundingBox())) {
-				if (entity instanceof AbstractMinecart) {
-					callbackInfoReturnable.setReturnValue(InteractionResult.FAIL);
-					return;
-				}
-			}
-		}
+        double d = pos.getX() + 0.5;
+        double e = pos.getY() + 0.0625 + offset;
+        double f = pos.getZ() + 0.5;
+
+        AbstractMinecart abstractMinecart = (AbstractMinecart)(switch (minecartItem.type) {
+
+            case CHEST -> new MinecartChest(level, d, e, f);
+            case FURNACE -> new MinecartFurnace(level, d, e, f);
+            case TNT -> new MinecartTNT(level, d, e, f);
+            case SPAWNER -> new MinecartSpawner(level, d, e, f);
+            case HOPPER -> new MinecartHopper(level, d, e, f);
+            case COMMAND_BLOCK -> new MinecartCommandBlock(level, d, e, f);
+            default -> new Minecart(level, d, e, f);
+        });
+        //EntityType.createDefaultStackConfig(level, itemStack, context.getPlayer()).accept(abstractMinecart);
+
 
 		//if (level instanceof ServerLevel serverLevel) {
-		    SimulatedLevel.addEntity( (ClientLevel) level, cart);
+		    SimulatedLevel.addEntity( (ClientLevel) level, abstractMinecart);
 			//serverLevel.gameEvent(GameEvent.ENTITY_PLACE, pos, GameEvent.Context.of(context.getPlayer(), serverLevel.getBlockState(pos.below())));
 		//}
 
