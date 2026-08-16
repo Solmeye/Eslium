@@ -47,7 +47,7 @@ public class UseItemOnPacket {
                         //return InteractionResult.FAIL;
                         return;
                     }
-                    if (player.gameMode() == GameType.SPECTATOR) {
+                    if (player.isSpectator()) {
                         return;
                     }
 

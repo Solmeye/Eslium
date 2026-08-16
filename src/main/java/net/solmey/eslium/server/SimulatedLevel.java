@@ -19,7 +19,7 @@ import net.minecraft.network.protocol.game.ClientboundSetEquipmentPacket;
 import net.minecraft.network.protocol.game.ClientboundSetPassengersPacket;
 import net.minecraft.network.protocol.game.ClientboundUpdateAttributesPacket;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.util.Util;
+import net.minecraft.Util;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Leashable;
@@ -59,8 +59,6 @@ public class SimulatedLevel {
     }
 
    	private static void sendPairingData(Entity entity, Consumer<Packet<ClientGamePacketListener>> broadcast) { //From ServerEntity.java
-		entity.updateDataBeforeSync();
-
 		List<SynchedEntityData.DataValue<?>> trackedDataValues = entity.getEntityData().getNonDefaultValues();
 
 		if (entity.isRemoved()) {
