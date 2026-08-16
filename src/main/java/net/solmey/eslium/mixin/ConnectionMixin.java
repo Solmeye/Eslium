@@ -1,6 +1,6 @@
 package net.solmey.eslium.mixin;
 
-import org.jspecify.annotations.Nullable;
+//import javax.annotation.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -21,8 +21,6 @@ public class ConnectionMixin {
     ) // When a packet is sent from the client
     private void eslium$send(
         Packet<?> packet,
-        @Nullable ChannelFutureListener listener,
-        boolean flush,
         CallbackInfo callback
     ) {
         if (!Eslium.shouldWork()) return;

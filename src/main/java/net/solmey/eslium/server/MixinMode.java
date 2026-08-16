@@ -6,4 +6,6 @@ public class MixinMode {
 
     // Sorry I am lazy to create another class / rename it lol
     public static long lastTimestamp;
+
+
 }
