@@ -8,8 +8,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import net.solmey.eslium.Eslium;
-import net.solmey.eslium.config.predictions.Crystal;
-import net.solmey.eslium.config.predictions.Minecart;
 
 public class ConfigManager {
 
