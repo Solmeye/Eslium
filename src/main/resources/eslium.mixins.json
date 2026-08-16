@@ -1,0 +1,27 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.solmey.eslium.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "anticheat.MinecraftMixin",
+    "anticheat.ClientLevelMixin",
+
+    "crystal.EndCrystalItemMixin",
+
+    "entrypoint.MinecraftMixin",
+
+    "minecart.MinecartItemMixin",
+
+    "ClientPacketListenerMixin",
+    "ConnectionMixin",
+    "MinecraftMixin",
+    "PingDebugMonitorMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}

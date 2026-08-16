@@ -1,0 +1,7 @@
+accessWidener v2 official
+
+accessible field net/minecraft/client/multiplayer/ClientLevel tickingEntities Lnet/minecraft/world/level/entity/EntityTickList;
+accessible field net/minecraft/client/multiplayer/ClientLevel tickRateManager Lnet/minecraft/world/TickRateManager;
+accessible field net/minecraft/world/entity/Entity removalReason Lnet/minecraft/world/entity/Entity$RemovalReason;
+
+accessible field net/minecraft/world/item/MinecartItem type Lnet/minecraft/world/entity/EntityType;

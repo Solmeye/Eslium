@@ -1,42 +1,23 @@
 {
-	"schemaVersion": 1,
-	"id": "clienthings",
-	"version": "${version}",
-	"name": "ClienThings",
-	"description": "Tired of letting the server ruin everything because of ping ? Let your Client optimize by doing more Things",
-	"authors": [
-		"Solmey"
-	],
-	"contact": {
-        "homepage": "https://modrinth.com/project/zaVwh7an",
-        "issues": "https://github.com/Solmeye/ClienThings/issues",
-		"sources": "https://github.com/Solmeye/ClienThings"
-    },
-	"license": "LGPL-3.0-only",
-	"icon": "assets/clienthings/icon.png",
-	"environment": "*",
-	"entrypoints": {
-		"main": [
-			"fr.solmey.clienthings.ClienThings"
-		]
-	},
-	"mixins": [
-		"clienthings.mixins.json"
-	],
-	"depends": {
-		"fabricloader": ">=0.15.10",
-		"minecraft":  "~1.21.6",
-		"java": ">=21"
-	},
-	"suggests": {
-		"another-mod": "*"
-	},
-	"custom": {
-		"modmenu": {
-			"links": {
-				"modmenu.modrinth": "https://modrinth.com/project/zaVwh7an",
-				"modmenu.discord": "https://discord.gg/aBRbcmYhkA"
-			}
-		}
-  	}
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${mod_version}",
+  "name": "${mod_name}",
+  "description": "${description}",
+  "authors": ["${authors}"],
+  "contact": {
+    "homepage": "${homepage}",
+    "discord": "${discord}"
+  },
+  "license": "${license}",
+  "icon": "${icon}",
+  "environment": "client",
+  "entrypoints": {},
+  "mixins": ["${mod_id}.mixins.json"],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "minecraft": "${minecraft_range}",
+    "java": ">=${min_java}"
+  },
+  "accessWidener": "${mod_id}.accesswidener"
 }

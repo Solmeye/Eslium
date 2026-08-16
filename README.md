@@ -1,100 +1,252 @@
 <center>
 
-## Eslium
+[![Modrinth Icon](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy-minimal/available/modrinth_vector.svg)](https://modrinth.com/project/v4yw0pI3)
+[![Github Icon](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy-minimal/available/github_vector.svg)](https://github.com/Solmeye/Eslium-)
+[![Discord Icon](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy-minimal/social/discord-singular_vector.svg)](https://discord.gg/FVq3j5heAc)
 
-[![Modrinth Icon](https://cdn.sqidgeon.uk/cozy/available/modrinth_vector.svg)](https://modrinth.com/project/zaVwh7an)
-[![Github Icon](https://cdn.sqidgeon.uk/cozy/available/github_vector.svg)](https://github.com/Solmeye/Eslium)
-[![Discord Icon](https://cdn.sqidgeon.uk/cozy/social/discord-plural_vector.svg)](https://discord.gg/FVq3j5heAc)
+[![Fabric Icon](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy-minimal/supported/fabric_vector.svg)](https://fabricmc.net/)
+[![Quilt Icon](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy-minimal/supported/quilt_vector.svg)](https://quiltmc.org/)
+[![NeoForge Icon](https://raw.githubusercontent.com/Solmeye/Eslium-/2b0ed26bc9fd49f2f1c6b8aa289dbb81cd0db956/neoforge.svg)](https://neoforged.net/)
 
 </center>
 
-Eslium is a project to predict more things client-side.
-For example, if you want to use a Crystal, you must wait for the server validation for it to appear.
-This mod fixes that and therefore compensates for the ping.
+---
 
-## Predictions implemented
+Eslium is a server-side anti-cheat designed to help server administrators detect cheating, malicious behavior, and alternate accounts, while providing tools to investigate.
+
+The project focuses on being compatible with the latest Minecraft version (26.1+) and avoiding any false flag.
+
+This project uses [mixins](https://docs.fabricmc.net/develop/mixins/bytecode) to filter and analyze at the packet level.
+However, these mixins are currently not at a low enough level to be completely compatible with other mods
+
+### Next updates
+
+- Default configuration fix
+- Support for Paper, Spigot, Folia, Bukkit, Sponge and Folia
+- Forge support
+- Configuration for ingoing and outgoing packets
+- Option to disable the auto antialt check
+- `/eslium freeze` command
+- Other (You too can also suggest)
+
+## Filtered packages (ingoing)
+
+_The following incoming packets are scanned for impossible or suspicious behavior_
+
+[None]
+
+## Filtered packages (outgoing)
+
+_Subsequent outgoing packets are filtered and fake the data when a Vanilla client cannot distinguish the difference.
+This is done in order to prevent or limit the effectiveness of a cheat_
 
 <details>
-<summary>Minecarts</summary>
+<summary>ClientboundPlayerCombatEndPacket</summary>
 
-When using any type of minecart on a rail, the spawn of the minecart is predicted
+- Packet
+
+> Cancelled
 
 </details>
 
 <details>
-<summary>End Crystal</summary>
+<summary>ClientboundPlayerCombatEnterPacket</summary>
 
-When using an end crystal on obisidian or bedrock, the spawn of the end crystal is predicted
+- Packet
+
+> Cancelled
 
 </details>
-
-## Predictions ComingSoon™ :
 
 <details>
-<summary>Predictions ComingSoon™</summary>
+<summary>ClientboundSetExperiencePacket</summary>
 
-- Lunge enchant
-- Anchors
-- Cooldowns
-- Consumables
-- Elytra
-- Firework rocket
-- Swap
-- Inventory
-- Cushion
-- Entity pose
-- Wind charge
-- Jukebox
-- Crossbow
-- Pickup entities
-- Trident
-- Weapons
-- Bottle o' Enchanting
-- Experience
-- Ender Pearls
-- Potions
-- Pick Block
-- Cactus damage
-- Bed
-- Fishing Rod
-- Lead
-- Boat
-- Snowball
-- Spawn Eggs
-- Egg
-- Armor Stand
-- Note block
-- Item frame
-- Dyes
-- Interfaces
-- Void damage
-- Game mode change
-- Potion Effects
-- Tchat
-- Sounds
-- Crafting
-- Scaffolding
-- Knockback
-- Fall damage
+- Field `ExperienceProgress`
+
+> Lossless scrambling value accuracy
+
+> [To implement] Hides the value when it is not supposed to be exploitable (eg. when the locator bar is used)
+
+- Field `TotalExperience`
+
+> Hides the value
 
 </details>
+
+<details>
+<summary>ClientboundSetHealthPacket</summary>
+
+- Packet
+
+> Canceled when the packet only update the saturation
+
+- Field `Health`
+
+> Lossless scrambling value accuracy
+
+> [To implement] Hides the value when it is not supposed to be exploitable (eg. when the gamemode is creative)
+
+- Field `Food`
+
+> [To implement] Hides the value when it is not supposed to be exploitable (eg. when riding a horse)
+
+- Field `Saturation`
+
+> Hides the value
+
+</details>
+
+## Commands
+
+- `/eslium`
+  Displays the mod version
+
+- `/eslium info`
+  Displays the mod version
+
+- `/eslium version`
+  Displays the mod version
+
+- `/eslium discord`
+  Displays the Discord link
+
+- `/eslium modrinth`
+  Displays the Modrinth link
+
+- `/eslium reload`
+  Reload the configuration
+
+- `/eslium profile <targets>`
+  Displays a player's profile (IP, latency, brand...)
+
+- `/eslium alt <targets>`
+  Try to detect alternative accounts
+
+- `/eslium crash <targets>`
+  Crashes a player's client
+
+- `/eslium schedule <command> <time>`
+  Schedules the execution of any command
+
+- `/eslium data <targets> <path> <value>`
+  Writes data to the Json file associated with the player.s
+  See https://datatracker.ietf.org/doc/html/rfc6901
+
+- `/eslium webhook <message>`
+  Send a message through the webhook
+
+- `/eslium resolve <targets> <key>`
+  Resolves [translation keys](https://bugs.mojang.com/browse/MC/issues/MC-265322). Useful for detecting some resource packs or mods.
 
 ## Configuration
+
+A default configuration is provided.
 
 <details>
 <summary>Default configuration</summary>
 
 ```
 {
-  "enabled": true,
-  "version": 1,
-  "crystal": {
-    "enabled": true
+  "key": [
+    {
+      "identifier": "minecraft",
+      "keys": [
+        "key.forward",
+        "key.left",
+        "key.back",
+        "key.right",
+        "key.jump",
+        "key.sneak",
+        "key.sprint",
+        "key.inventory",
+        "key.swapOffhand",
+        "key.drop",
+        "key.use",
+        "key.attack",
+        "key.pickItem",
+        "key.chat",
+        "key.playerlist",
+        "key.command",
+        "key.socialInteractions",
+        "key.screenshot",
+        "key.togglePerspective",
+        "key.smoothCamera",
+        "key.fullscreen",
+        "key.advancements",
+        "key.quickActions",
+        "key.toggleGui",
+        "key.toggleSpectatorShaderEffects",
+        "key.hotbar.1",
+        "key.hotbar.2",
+        "key.hotbar.3",
+        "key.hotbar.4",
+        "key.hotbar.5",
+        "key.hotbar.6",
+        "key.hotbar.7",
+        "key.hotbar.8",
+        "key.hotbar.9",
+        "key.saveToolbarActivator",
+        "key.loadToolbarActivator",
+        "key.spectatorOutlines",
+        "key.spectatorHotbar",
+        "key.debug.overlay",
+        "key.debug.modifier",
+        "key.debug.crash",
+        "key.debug.reloadChunk",
+        "key.debug.showHitboxes",
+        "key.debug.clearChat",
+        "key.debug.showChunkBorders",
+        "key.debug.showAdvancedTooltips",
+        "key.debug.copyRecreateCommand",
+        "key.debug.spectate",
+        "key.debug.switchGameMode",
+        "key.debug.debugOptions",
+        "key.debug.focusPause",
+        "key.debug.dumpDynamicTextures",
+        "key.debug.reloadResourcePacks",
+        "key.debug.profiling",
+        "key.debug.copyLocation",
+        "key.debug.dumpVersion",
+        "key.debug.profilingChart",
+        "key.debug.fpsCharts",
+        "key.debug.networkCharts",
+        "key.debug.lightmapTexture"
+      ],
+      "commandsOnEachFound": [
+        "eslium data %s \"fingerprint/translations/%c/0\" \"%t\"",
+        "eslium data %s \"fingerprint/translations/%c/1\" \"%k\""
+      ],
+      "commandsOnEachNotFound": [
+        "kick %s Please remove your anti translation exploit software"
+      ],
+      "autoresolve": true
+    }
+  ],
+  "antiAlt": {
+    "scoreSuspicious": 65,
+    "scoreConfirmed": 90,
+    "scoreNormalCommand": [],
+    "scoreSuspiciousCommand": [
+      "eslium webhook \"`%s` is suspected of alting with [%i](https://namemc.com/%i)\\\\n-# Matching score : `%m`\""
+    ],
+    "scoreConfirmedCommand": [
+      "eslium webhook \"`%s` is probably alting with [%i](https://namemc.com/%i)\\\\n-# Matching score : `%m`\\\\n-# Automatic action executed\"",
+      "eslium crash %s",
+      "ban %s Alting"
+    ]
   },
-  "minecart": {
-    "enabled": true
+  "delayAntiAltCheck": 30,
+  "ingoingFilter": {},
+  "outgoingFilter": {
+    "ClientboundSetHealthPacket": {
+      "enabled": true,
+      "options": {
+        "fakeSaturation": 20.0
+      }
+    }
   },
-  "simulatedDesync": 50
+  "webhook": "",
+  "version": 1
 }
 ```
 
@@ -103,69 +255,79 @@ When using an end crystal on obisidian or bedrock, the spawn of the end crystal 
 <details>
 <summary>Explanation</summary>
 
-- `enabled` Enable or disable the mod
+- `key`
 
-- `version` Version of the configuration. Do not touch!
+  - `identifier` Identifier where the key comes from.
+    Used for display purposes only
 
-- `crystal`
-  - `enabled` Enable or disable the crystal prediction
+  - `keys` Key list
 
-- `minecart`
-  - `enabled` Enable or disable the minecart prediction
+  - `commandsOnEachFound` Command to execute for each key when resolved by autoresolve
 
-- `simulatedDesync` Percentage of maximum client-server tick desynchronization time used to simulate vanilla desynchronization. Useful for replicating vanilla desynchronization and ensuring statistical fairness. Note that in singleplayer this would be `0`, and on a local server this would be at `50` on average<br>`min`: 0 `max`: 100
+  - `commandsOnEachNotFound` Command to execute for each key when not resolved by autoresolve
 
+  - `autoresolve` Automatically resolves this key group when connecting a player or not
+
+- `antiAlt`
+
+  - `scoreSuspicious` Threshold to execute the commands associated. When the matching alt value is higher than `scoreSuspicious`, it means that the match is suspicious and needs investigation. Min `0` Max `100`
+
+  - `scoreConfirmed` Threshold to execute the commands associated. When the matching alt value is higher than `scoreConfirmed`, it means that the match is confirmed an is an alternative account. Min `0` Max `100`
+
+  - `scoreNormalCommand` Commands executed when the matching score is not suspicious or confirms an alt
+
+  - `scoreSuspiciousCommand` Commands executed when the matching score is suspicious
+
+  - `scoreConfirmedCommand` Commands executed when the matching score confirms an alt.
+
+- `delayAntiAltCheck`
+  (In ticks) Delay before checking for alts after that a player joined your server. Higher values makes it easier to disconnect to avoid the scan.
+
+- `webhook`
+  Webhook of your Discord Webhook
+
+- `version`
+  Version of the configuration. Do not touch!
 
 </details>
 
+## AntiAlt
+
+The antialt system is not explained in detail to avoid easy bypass.
+
 ## FAQ
-### How it works ?
-This mod uses mixins to inject code into Minecraft code. During certain actions, if implemented, the behavior of a vanilla server is replicated on the client side. 
 
-### Is this mod a cheat?
-You might think this mod is a cheat because it gives an advantage to those who don't have it, and these kinds of mods often raise these kinds of questions.
+### How does this mod work?
 
-Here are a few points :
+Eslium modifies outgoing network packets to remove or alter data that a vanilla client does not rely on. This is intended to reduce unnecessary information exposure without affecting normal gameplay.
 
-- Some people naturally have lower ping, yet it is not considered cheating
+### Is it possible to have a false flag?
 
-- It is possible to have 0ms ping behavior in vanilla, but it is also possible to have it (as far as it is implemented) with any ping and Eslium.
+Normally, no, with the default values.
 
-- Some mods remain accepted by the community but their behavior is impossible to reproduce in vanilla.
-I'm thinking in particular of Health Indicator, Armor HUD, AppleSkin, FreeCam, and Ok Zoomer.
+### What is the impact on performance?
 
-- This mod has been accepted by Modrinth and some PvP servers, such as
-  - `PvPClub`
-  - `FadedMC`
-  - `Turtled`
-  - `CatPvP`
-  - `Minemen`
+Currently, no statistics have been compiled on the CPU impact. The impact can only be negative.
+However, due to the reduction in packets sent, bandwidth can be decreased.
 
-- Sodium optimize FPS, Lithium optimize MSPT / TPS, Eslium optimize the ping's impact.
+### Will this mod backport to previous versions of Minecraft 26.1?
 
-- Other ping's optimizer are allowed, such as Marlow's Crystal Optimizer, Hero's Elytra Optimizer, Consumable Optimizer or Anchor Optimizer
+No.
 
-### Is this likely to break the desynchronization of the client-server tick loop?
-No. This desynchronization is simulated by an artificial time delay of half a tick.
+### Can I install it on my client?
 
-### Am I going to flag the anticheats?
-This mod is designed to not trigger anticheats.
-The way it works is by only adding the entities client-side when they are rendered and at the moment of their ticking, without letting them interacting with anything real.
-So no, you won't if you use the recommended versions.
+Yes. Please note, however, that this project may not work correctly if done.
 
-Note: I played for months with this mod and I have never been banned
+### What version should I update this project to?
 
-### Which branch should I install?
-- Release versions are safe to use
+Alpha versions may have unstable behavior.
 
-- Beta might behave weirdly but shouldn't flag any anticheat
+Beta versions are relatively stable and will not pose a problem.
 
-- Alpha versions may be unstable and are only here to test the new functionnalities and fixes, regardless of their stability.
+Releases are the most stable.
 
-For a casual player, beta or release versions are recommended.
+It is recommended to update this project to the latest beta or stable version, as appropriate
 
-## Compatibility
-Eslium should work on any client.
+### Is this compatible with [mod]?
 
-## Support me!
-Join my Hardcore Minecraft server: [HardcoreSMP](https://modrinth.com/server/hardcoresmp_) - `38.143.19.130`
+To date, no incompatibilities have been reported. If you encounter any, please let me know.
