@@ -1,4 +1,4 @@
-accessWidener v2 official
+classTweaker v1 named
 
 accessible field net/minecraft/client/multiplayer/ClientLevel tickingEntities Lnet/minecraft/world/level/entity/EntityTickList;
 accessible field net/minecraft/client/multiplayer/ClientLevel tickRateManager Lnet/minecraft/world/TickRateManager;
