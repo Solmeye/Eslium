@@ -5,3 +5,7 @@ accessible field net/minecraft/client/multiplayer/ClientLevel tickRateManager Ln
 accessible field net/minecraft/world/entity/Entity removalReason Lnet/minecraft/world/entity/Entity$RemovalReason;
 
 accessible field net/minecraft/world/item/MinecartItem type Lnet/minecraft/world/entity/EntityType;
+accessible method net/minecraft/world/item/ItemStack applyAfterUseComponentSideEffects (Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/item/ItemStack;)Lnet/minecraft/world/item/ItemStack;
+
+accessible field net/minecraft/world/item/ItemCooldowns cooldowns Ljava/util/Map;
+accessible field net/minecraft/world/item/ItemCooldowns tickCount I
