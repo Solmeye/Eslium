@@ -27,6 +27,7 @@ def modProps = [
         "icon"                        : project.icon,
         "minecraft_range"             : project.minecraft_range,
         "loader_version"              : project.loader_version,
+        "min_loader_version"          : project.min_loader_version,
         "min_java"                    : project.min_java
 ]
 
