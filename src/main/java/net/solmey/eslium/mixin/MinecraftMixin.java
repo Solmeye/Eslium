@@ -18,7 +18,6 @@ import net.solmey.eslium.Eslium;
 import net.solmey.eslium.config.ConfigManager;
 import net.solmey.eslium.data.Data;
 import net.solmey.eslium.predictions.UseItemOnPacket;
-import net.solmey.eslium.predictions.UseItemPacket;
 import net.solmey.eslium.rollback.InteractionManager;
 import net.solmey.eslium.server.MixinMode;
 import net.solmey.eslium.server.SimulatedInventory;
@@ -65,7 +64,6 @@ public class MinecraftMixin {
         synchronized (Data.sentPackets) {
             for (Packet<?> packet : Data.sentPackets) {
                 UseItemOnPacket.onSentPacket(packet);
-                UseItemPacket.onSentPacket(packet);
             }
             Data.sentPackets.clear();
         }
@@ -119,7 +117,7 @@ public class MinecraftMixin {
             Map.Entry<Long, Packet<ClientGamePacketListener>> entry = iterator.next();
 
             long timestamp = entry.getKey();
-            //Packet<ClientGamePacketListener> packet = entry.getValue();
+            Packet<ClientGamePacketListener> packet = entry.getValue();
 
             float MSPT = Minecraft.getInstance()
                 .level.tickRateManager()
