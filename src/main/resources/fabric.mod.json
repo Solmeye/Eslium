@@ -15,7 +15,7 @@
   "entrypoints": {},
   "mixins": ["${mod_id}.mixins.json"],
   "depends": {
-    "fabricloader": ">=${loader_version}",
+    "fabricloader": ">=${min_loader_version}",
     "minecraft": "${minecraft_range}",
     "java": ">=${min_java}"
   },
