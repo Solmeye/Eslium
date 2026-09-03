@@ -39,7 +39,8 @@ public class MinecraftMixin {
             .level.tickRateManager()
             .nanosecondsPerTick();
 
-        int desync = Math.clamp(ConfigManager.getConfig().simulatedDesync, 0, 100);
+        //int desync = Math.clamp(ConfigManager.getConfig().simulatedDesync, 0, 100);
+        int desync = ConfigManager.getConfig().simulatedDesync;
         MSPTnano = MSPTnano * desync / 100;
 
         Data.timestampNanoNextServerTick = System.nanoTime() + MSPTnano;
