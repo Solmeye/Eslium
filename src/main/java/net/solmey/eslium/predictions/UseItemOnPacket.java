@@ -21,7 +21,7 @@ public class UseItemOnPacket {
         if (packet instanceof ServerboundUseItemOnPacket sPacket) {
             Player player = Minecraft.getInstance().player;
             Level level = player.level();
-            InteractionHand hand = sPacket.getHand();
+            InteractionHand hand = sPacket.hand();
             ItemStack itemStack = player.getItemInHand(hand);
 
             if (
@@ -30,7 +30,7 @@ public class UseItemOnPacket {
             ) return;
 
             if (itemStack.isItemEnabled(level.enabledFeatures())) {
-                BlockHitResult blockHit = sPacket.getHitResult();
+                BlockHitResult blockHit = sPacket.hitResult();
                 //Vec3 location = blockHit.getLocation();
                 BlockPos pos = blockHit.getBlockPos();
 
