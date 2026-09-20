@@ -19,7 +19,6 @@ import net.minecraft.network.protocol.game.ClientboundSetEquipmentPacket;
 import net.minecraft.network.protocol.game.ClientboundSetPassengersPacket;
 import net.minecraft.network.protocol.game.ClientboundUpdateAttributesPacket;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.util.Util;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Leashable;
@@ -53,7 +52,7 @@ public class SimulatedLevel {
 
             List<Packet<? super ClientGamePacketListener>> packets = new ArrayList<>();
       		sendPairingData(entity, packets::add);
-      		Data.predictedPackets.put(Util.getMillis(), new ClientboundBundlePacket(packets));
+      		Data.predictedPackets.add(new ClientboundBundlePacket(packets));
         }
         newEntities.clear();
     }

@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.Minecraft;
 import net.solmey.eslium.Eslium;
-import net.solmey.eslium.rollback.InteractionManager;
+import net.solmey.eslium.interactions.InteractionManager;
 
 @Mixin(Minecraft.class)
 public class MinecraftMixin {
@@ -20,7 +20,7 @@ public class MinecraftMixin {
     ) {
         if (!Eslium.shouldWork()) return;
 
-        InteractionManager.showEntities();
+        InteractionManager.addAllPredictions();
     }
 
     @Inject(method = "renderFrame", at = @At("TAIL"))
@@ -30,6 +30,6 @@ public class MinecraftMixin {
     ) {
         if (!Eslium.shouldWork()) return;
 
-        InteractionManager.hideEntities();
+        InteractionManager.removeAllPredictions();
     }
 }

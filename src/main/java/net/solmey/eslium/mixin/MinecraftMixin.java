@@ -1,8 +1,5 @@
 package net.solmey.eslium.mixin;
 
-import java.util.Iterator;
-import java.util.Map;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -13,12 +10,12 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.solmey.eslium.Eslium;
 import net.solmey.eslium.config.ConfigManager;
 import net.solmey.eslium.data.Data;
+import net.solmey.eslium.data.PacketPrediction;
+import net.solmey.eslium.interactions.InteractionManager;
 import net.solmey.eslium.predictions.UseItemOnPacket;
-import net.solmey.eslium.rollback.InteractionManager;
 import net.solmey.eslium.server.MixinMode;
 import net.solmey.eslium.server.SimulatedInventory;
 import net.solmey.eslium.server.SimulatedLevel;
@@ -53,7 +50,7 @@ public class MinecraftMixin {
         ClientLevel clientLevel = (ClientLevel) player.level();
 
         MixinMode.mixinMode = true;
-        InteractionManager.showEntities();
+        InteractionManager.addAllPredictions();
 
 
 
@@ -76,14 +73,16 @@ public class MinecraftMixin {
 
 
 
-        InteractionManager.hideEntities();
+        InteractionManager.removeAllPredictions();
         MixinMode.mixinMode = false;
 
 
 
-        // If the real packet from the server is received before handling it, we need to rollback anyways
-        Data.extractPackets(Data.predictedPackets);
-        Data.extractedToBeValidedPackets.putAll(Data.predictedPackets);
+        // We need to keep track of the simulated packets to link them to the predictions (to detect rollbacks with packets)
+        Data.extractPackets(Data.predictedPackets); // Extract all packets from predictedPackets
+        for (var packet : Data.predictedPackets) {
+            Data.predictions.add(new PacketPrediction(packet, System.nanoTime(), null, null));
+        }
     }
 
     @Inject(method = "runTick", at = @At("HEAD")) // Each frame
@@ -98,39 +97,28 @@ public class MinecraftMixin {
 
             ClientPacketListener connection = Minecraft.getInstance().getConnection();
 
-            for (var entry : Data.predictedPackets.entries()) {
-                Packet<ClientGamePacketListener> packet = entry.getValue();
-
-                if(Data.extractedToBeValidedPackets.containsValue(packet)) {
+            for (var packet : Data.predictedPackets) {
+                // We need to check if the prediction (and the packet) have been cancelled before applying the prediction
+                if (Data.predictions.stream()
+                        .anyMatch(prediction -> prediction.getPacket() == packet)) {
                     packet.handle(connection);
                 }
             }
             Data.predictedPackets.clear();
-
-            InteractionManager.hideEntities();
         }
 
 
-        //InteractionManager.showEntities();
-        Iterator<Map.Entry<Long, Packet<ClientGamePacketListener>>> iterator =
-                Data.extractedToBeValidedPackets.entries().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry<Long, Packet<ClientGamePacketListener>> entry = iterator.next();
+        // Timeout check
+        float MSPT = Minecraft.getInstance()
+            .level.tickRateManager()
+            .nanosecondsPerTick();
+        float margin = MSPT * 2;
 
-            long timestamp = entry.getKey();
-            Packet<ClientGamePacketListener> packet = entry.getValue();
+        for (PacketPrediction packetPrediction : Data.predictions) {
 
-            float MSPT = Minecraft.getInstance()
-                .level.tickRateManager()
-                .millisecondsPerTick();
-
-            if (MixinMode.lastTimestamp > timestamp + MSPT * 2) {
-                //System.out.println("TIMEOUT\n");
-                //Rollback.rollback(packet);
-                iterator.remove();
-            }
+            if(MixinMode.lastTimestamp > packetPrediction.getTimestamp() + margin)
+                InteractionManager.rollback(packetPrediction.getPacket());
         }
-        //InteractionManager.hideEntities();
     }
 
     /*@Inject(
