@@ -43,6 +43,10 @@ tasks.withType(JavaCompile).configureEach {
 	it.options.release = 25
 }
 
+tasks.jar {
+    archiveFileName = "${archives_base_name}-${mod_version}+${minecraft_version}.jar"
+}
+
 java {
 	//withSourcesJar()
 
