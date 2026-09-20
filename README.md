@@ -166,6 +166,3 @@ For a casual player, beta or release versions are recommended.
 
 ## Compatibility
 Eslium should work on any client.
-
-## Support me!
-Join my Hardcore Minecraft server: [HardcoreSMP](https://modrinth.com/server/hardcoresmp_) - `38.143.19.130`
