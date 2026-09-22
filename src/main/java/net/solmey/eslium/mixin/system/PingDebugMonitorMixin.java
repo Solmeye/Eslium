@@ -1,4 +1,4 @@
-package net.solmey.eslium.mixin;
+package net.solmey.eslium.mixin.system;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

@@ -1,4 +1,4 @@
-package net.solmey.eslium.mixin;
+package net.solmey.eslium.mixin.system;
 
 import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;

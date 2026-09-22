@@ -4,19 +4,19 @@
   "package": "net.solmey.eslium.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "anticheat.MinecraftMixin",
-    "anticheat.ClientLevelMixin",
-
-    "crystal.EndCrystalItemMixin",
-
     "entrypoint.MinecraftMixin",
 
-    "minecart.MinecartItemMixin",
+    "predictions.crystal.EndCrystalItemMixin",
+    "predictions.minecart.MinecartItemMixin",
 
-    "ClientPacketListenerMixin",
-    "ConnectionMixin",
-    "MinecraftMixin",
-    "PingDebugMonitorMixin"
+    "rollback.ClientPacketListenerMixin",
+
+    "system.ConnectionMixin",
+    "system.MinecraftMixin",
+    "system.PingDebugMonitorMixin",
+
+    "predictions.MinecraftMixin",
+    "predictions.ClientLevelMixin"
   ],
   "injectors": {
     "defaultRequire": 1

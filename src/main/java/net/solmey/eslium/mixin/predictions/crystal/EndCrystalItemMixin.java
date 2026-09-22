@@ -1,4 +1,4 @@
-package net.solmey.eslium.mixin.crystal;
+package net.solmey.eslium.mixin.predictions.crystal;
 
 import java.util.List;
 

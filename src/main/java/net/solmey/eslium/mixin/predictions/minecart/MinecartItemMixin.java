@@ -1,4 +1,4 @@
-package net.solmey.eslium.mixin.minecart;
+package net.solmey.eslium.mixin.predictions.minecart;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

@@ -1,4 +1,4 @@
-package net.solmey.eslium.mixin.anticheat;
+package net.solmey.eslium.mixin.vanillainteraction;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
