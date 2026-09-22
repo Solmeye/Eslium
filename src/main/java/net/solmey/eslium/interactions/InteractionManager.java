@@ -41,27 +41,22 @@ public class InteractionManager {
         Minecraft minecraft = Minecraft.getInstance();
         ClientLevel clientLevel = minecraft.level;
 
-        // Save real state
         for (PacketPrediction packetPrediction : Data.predictions) {
             Object prediction = packetPrediction.getPrediction();
 
+            // Apply the prediction
             if(prediction instanceof Entity entity) {
-
-                Entity realEntity = clientLevel.getEntity(entity.getId());
-                packetPrediction.setRealState(realEntity);
+                clientLevel.addEntity(entity);
+                entity.removalReason = null; // entity.unsetRemoved();
             }
             else {
 
             }
-        }
 
-        // Apply the prediction
-        for (PacketPrediction packetPrediction : Data.predictions) {
-            Object prediction = packetPrediction.getPrediction();
-
+            // Save real state
             if(prediction instanceof Entity entity) {
-                clientLevel.addEntity(entity);
-                entity.removalReason = null; // entity.unsetRemoved();
+                Entity realEntity = clientLevel.getEntity(entity.getId());
+                packetPrediction.setRealState(realEntity);
             }
             else {
 
@@ -76,20 +71,20 @@ public class InteractionManager {
         Minecraft minecraft = Minecraft.getInstance();
         ClientLevel clientLevel = minecraft.level;
 
-        // Remove the prediction
-        for (PacketPrediction packetPrediction : Data.predictions) {
+        for (int i = Data.predictions.size() - 1; i >= 0; i--) {
+            PacketPrediction packetPrediction = Data.predictions.get(i);
+            // Remove the prediction
             Object prediction = packetPrediction.getPrediction();
 
+            // Sometimes the realstate is null - removing the prediction first is needed
             if(prediction instanceof Entity entity) {
                 entity.remove(Entity.RemovalReason.DISCARDED);
             }
             else {
 
             }
-        }
 
-        // Apply and clear the realState
-        for (PacketPrediction packetPrediction : Data.predictions) {
+            // Apply and clear the realState
             Object realState = packetPrediction.getRealState();
 
             if(realState instanceof Entity realEntity) {
@@ -99,9 +94,6 @@ public class InteractionManager {
             else {
 
             }
-
-
-
             packetPrediction.setRealState(null);
         }
     }

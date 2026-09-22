@@ -10,7 +10,7 @@ public class PacketPrediction {
     private Packet<ClientGamePacketListener> packet;
     private long timestamp;
     private Object realState;   // Original data of the modified thing(s) of the real world, if the predictions are applied
-    private Object prediction;  // Data of the prediction
+    private Object prediction;  // Data of state before applying the prediction
 
     public PacketPrediction(
         Packet<ClientGamePacketListener> packet,
