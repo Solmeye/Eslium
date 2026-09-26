@@ -9,8 +9,7 @@
     "predictions.crystal.EndCrystalItemMixin",
     "predictions.minecart.MinecartItemMixin",
 
-    "rollback.ClientPacketListenerMixin",
-
+    "system.ClientPacketListenerMixin",
     "system.ConnectionMixin",
     "system.MinecraftMixin",
     "system.PingDebugMonitorMixin",

@@ -9,35 +9,25 @@ import net.solmey.eslium.data.PacketPrediction;
 
 public class InteractionManager {
 
-    private static boolean predictionApplied;
-
-    public static boolean isPredictionApplied() {
-		return predictionApplied;
-	}
-
-	public static void setPredictionApplied(boolean state) {
-		predictionApplied = state;
-	}
-
+    public boolean blockthread;
+    // When the game interact with the world you may need to add or remove every predictions, then allow it to do whatever he wants
+    // But between the time it adds or removes predictions another thread may modify the world
+    // That's why blockthread exists : to block the a thread until it gets the authorization to run its code
 
 	// Remove the prediction linked to the packet and the packet itself
     public static void rollback(Packet<?> packet) {
-
-        boolean temp = predictionApplied;
-
         // If we rollback only 1 prediction, it may overwrite another prediction, so here is the fix :
         removeAllPredictions();
         Data.predictions.removeIf(p -> p.getPacket().equals(packet));
-        if(temp)
-            addAllPredictions();
+    }
+
+    public static void rollback(PacketPrediction packetPrediction) {
+        // If we rollback only 1 prediction, it may overwrite another prediction, so here is the fix :
+        removeAllPredictions();
+        Data.predictions.remove(packetPrediction);
     }
 
     public static void addAllPredictions() {
-        if(predictionApplied)
-            return;
-
-        predictionApplied = true;
-
         Minecraft minecraft = Minecraft.getInstance();
         ClientLevel clientLevel = minecraft.level;
 
@@ -66,7 +56,6 @@ public class InteractionManager {
 
     // Remove all predictions from the client game
     public static void removeAllPredictions() {
-        predictionApplied = false;
 
         Minecraft minecraft = Minecraft.getInstance();
         ClientLevel clientLevel = minecraft.level;
