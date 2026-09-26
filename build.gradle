@@ -34,7 +34,7 @@ def modProps = [
 processResources {
     inputs.properties(modProps)
 
-    filesMatching("fabric.mod.json") {
+    filesMatching(["fabric.mod.json", "eslium.mixins.json"]) {
         expand(modProps)
     }
 }

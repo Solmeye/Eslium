@@ -1,8 +1,8 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "net.solmey.eslium.mixin",
-  "compatibilityLevel": "JAVA_21",
+  "package": "${group}.mixin",
+  "compatibilityLevel": "JAVA_${min_java}",
   "mixins": [
     "entrypoint.MinecraftMixin",
 
