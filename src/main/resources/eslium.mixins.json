@@ -14,8 +14,8 @@
     "system.MinecraftMixin",
     "system.PingDebugMonitorMixin",
 
-    "predictions.MinecraftMixin",
-    "predictions.ClientLevelMixin"
+    "vanillainteraction.MinecraftMixin",
+    "vanillainteraction.ClientLevelMixin"
   ],
   "injectors": {
     "defaultRequire": 1
