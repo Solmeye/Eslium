@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "id": "${mod_id}",
-  "version": "${mod_version}",
-  "name": "${mod_name}",
+  "id": "${id}",
+  "version": "${version}",
+  "name": "${name}",
   "description": "${description}",
   "authors": ["${authors}"],
   "contact": {
@@ -13,11 +13,11 @@
   "icon": "${icon}",
   "environment": "client",
   "entrypoints": {},
-  "mixins": ["${mod_id}.mixins.json"],
+  "mixins": ["${id}.mixins.json"],
   "depends": {
     "fabricloader": ">=${min_loader_version}",
     "minecraft": "${minecraft_range}",
     "java": ">=${min_java}"
   },
-  "accessWidener": "${mod_id}.accesswidener"
+  "accessWidener": "${id}.accesswidener"
 }
