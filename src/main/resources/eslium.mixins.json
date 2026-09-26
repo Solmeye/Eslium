@@ -1,6 +1,5 @@
 {
   "required": true,
-  "minVersion": "0.8",
   "package": "${group}.mixin",
   "compatibilityLevel": "JAVA_${min_java}",
   "mixins": [
