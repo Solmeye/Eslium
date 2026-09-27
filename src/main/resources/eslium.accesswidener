@@ -5,3 +5,6 @@ accessible field net/minecraft/client/multiplayer/ClientLevel tickRateManager Ln
 accessible field net/minecraft/world/entity/Entity removalReason Lnet/minecraft/world/entity/Entity$RemovalReason;
 
 accessible field net/minecraft/world/item/MinecartItem type Lnet/minecraft/world/entity/EntityType;
+
+accessible field net/minecraft/client/Minecraft pendingConnection Lnet/minecraft/network/Connection;
+accessible method net/minecraft/network/Connection genericsFtw (Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketListener;)V

@@ -3,17 +3,16 @@ package net.solmey.eslium.data;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 
 public class PacketPrediction {
 
-    private Packet<ClientGamePacketListener> packet;
+    private Packet<?> packet;
     private long timestamp;
     private Object realState;   // Original data of the modified thing(s) of the real world, if the predictions are applied
     private Object prediction;  // Data of state before applying the prediction
 
     public PacketPrediction(
-        Packet<ClientGamePacketListener> packet,
+        Packet<?> packet,
         long timestamp,
         @Nullable Object realState,
         @Nullable Object prediction
@@ -24,11 +23,11 @@ public class PacketPrediction {
         this.prediction = prediction;
     }
 
-    public Packet<ClientGamePacketListener> getPacket() {
+    public Packet<?> getPacket() {
         return packet;
     }
 
-    public void setPacket(Packet<ClientGamePacketListener> packet) {
+    public void setPacket(Packet<?> packet) {
         this.packet = packet;
     }
 

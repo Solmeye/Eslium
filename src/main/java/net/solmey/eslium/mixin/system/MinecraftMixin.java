@@ -7,8 +7,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.Connection;
+import net.minecraft.network.PacketListener;
 import net.minecraft.network.protocol.Packet;
 import net.solmey.eslium.Eslium;
 import net.solmey.eslium.config.ConfigManager;
@@ -99,15 +100,17 @@ public class MinecraftMixin {
         ) {
             Data.timestampNanoNextServerTick = -1;
 
-            ClientPacketListener connection = Minecraft.getInstance().getConnection();
+            Connection connection = Minecraft.getInstance().pendingConnection;
+            PacketListener packetListener = connection.getPacketListener();
 
-            for (var packet : Data.predictedPackets) {
+            for (Packet<?> packet : Data.predictedPackets) {
                 InteractionManager.blockthread();
 
                 // We need to check if the prediction (and the packet) have been cancelled before applying the prediction
                 if (Data.predictions.stream()
                         .anyMatch(prediction -> prediction.getPacket() == packet)) {
-                    packet.handle(connection);
+
+                    connection.genericsFtw(packet, packetListener); // Handle the packet
                 }
 
                 InteractionManager.unblockthread();
