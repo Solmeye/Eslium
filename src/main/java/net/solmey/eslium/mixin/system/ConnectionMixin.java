@@ -15,6 +15,7 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
 import net.solmey.eslium.Eslium;
 import net.solmey.eslium.data.Data;
 import net.solmey.eslium.data.PacketPrediction;
@@ -22,8 +23,6 @@ import net.solmey.eslium.interactions.InteractionManager;
 
 @Mixin(Connection.class)
 public class ConnectionMixin {
-
-    private final ThreadLocal<PacketPrediction> matchingPrediction = new ThreadLocal<>();
 
     @Inject(
         method = "send(Lnet/minecraft/network/protocol/Packet;Lio/netty/channel/ChannelFutureListener;Z)V",
@@ -49,44 +48,29 @@ public class ConnectionMixin {
     private void eslium$onPacketReceive(ChannelHandlerContext context, Packet<?> packet, CallbackInfo ci) {
         if (!Eslium.shouldWork()) return;
 
-        matchingPrediction.set(null);
+        InteractionManager.blockthread();
 
-        if(Data.predictions
-            .stream()
-            .anyMatch(packetPrediction -> packetPrediction.getPacket().equals(packet))
-        ) {  // If the packet is simulated
-            InteractionManager.addAllPredictions();
-        }
-        else { // if the packet is real
+        PacketPrediction packetPrediction = Data.predictions.stream()
+            .filter(prediction -> prediction.getPacket().equals(packet))
+            .findFirst()
+            .orElse(null);
 
-            // Try to find a matching prediction
+        if(packetPrediction != null) {  // If the packet is simulated
+
             if(packet instanceof ClientboundAddEntityPacket rPacket) {
-
-                for (PacketPrediction prediction : Data.predictions) {
-                    if (
-                        prediction.getPacket() instanceof ClientboundAddEntityPacket cPacket &&
-
-                        rPacket.getType().equals(cPacket.getType()) &&
-                        rPacket.getX() == cPacket.getX() &&
-                        rPacket.getY() == cPacket.getY() &&
-                        rPacket.getZ() == cPacket.getZ() &&
-                        rPacket.getXRot() == cPacket.getXRot() &&
-                        rPacket.getYRot() == cPacket.getYRot() &&
-                        rPacket.getYHeadRot() == cPacket.getYHeadRot()
-                    ) {
-                        matchingPrediction.set(prediction);
-
-                        break;
-                    }
-                }
+                Minecraft mc = Minecraft.getInstance();
+                ClientLevel clientLevel = mc.level;
+                Entity entity = clientLevel.getEntity(rPacket.getId());
+                packetPrediction.setRealState(entity);  // Assign the real state before it gets potentially overwritten by the packet
             }
             else if (packet instanceof ClientboundSetEntityDataPacket rPacket) {
 
             }
 
-            if(matchingPrediction.get() != null) {
-                InteractionManager.removeAllPredictions();
-            }
+            InteractionManager.addAllPredictions();
+        }
+        else { // if the packet is real
+            InteractionManager.removeAllPredictions();
         }
     }
 
@@ -105,10 +89,9 @@ public class ConnectionMixin {
 
         if(packetPrediction != null) { // If the packet is simulated
 
-            Minecraft mc = Minecraft.getInstance();
-            ClientLevel clientLevel = mc.level;
-
             if(packet instanceof ClientboundAddEntityPacket rPacket) {
+                Minecraft mc = Minecraft.getInstance();
+                ClientLevel clientLevel = mc.level;
                 Entity entity = clientLevel.getEntity(rPacket.getId());
                 packetPrediction.setPrediction(entity);  // Assign the predicted packet behavior to the PacketPrediction object
             }
@@ -119,20 +102,52 @@ public class ConnectionMixin {
             InteractionManager.removeAllPredictions();
         }
         else {
-            InteractionManager.rollback(matchingPrediction.get());
-            // Rollback da prediction
-            //
-            // Keep some predicted state / data to avoid any visual issue
-            /*if(prediction.getPrediction() instanceof EndCrystal realEntity &&
-                entity instanceof EndCrystal endCrystal) {
-                endCrystal.time = realEntity.time;
-            }*/
+
+            PacketPrediction matchingPrediction = null;
+
+            // Try to find a matching prediction
+            if(packet instanceof ClientboundAddEntityPacket rPacket) {
+
+                for (PacketPrediction prediction : Data.predictions) {
+                    if (
+                        prediction.getPacket() instanceof ClientboundAddEntityPacket cPacket &&
+
+                        rPacket.getType().equals(cPacket.getType()) &&
+                        rPacket.getX() == cPacket.getX() &&
+                        rPacket.getY() == cPacket.getY() &&
+                        rPacket.getZ() == cPacket.getZ() &&
+                        rPacket.getXRot() == cPacket.getXRot() &&
+                        rPacket.getYRot() == cPacket.getYRot() &&
+                        rPacket.getYHeadRot() == cPacket.getYHeadRot()
+                    ) {
+                        // Keep some predicted state / data to avoid any visual issue
+                        Minecraft mc = Minecraft.getInstance();
+                        ClientLevel clientLevel = mc.level;
+                        Entity entity = clientLevel.getEntity(rPacket.getId());
+                        if(
+                            prediction.getPrediction()  instanceof EndCrystal realEntity &&
+                            entity                      instanceof EndCrystal endCrystal
+                        ) {
+                            endCrystal.time = realEntity.time;
+                        }
+
+
+                        matchingPrediction = prediction;
+                        break;
+                    }
+                }
+            }
+            else if (packet instanceof ClientboundSetEntityDataPacket rPacket) {
+
+            }
+            else {
+
+            }
+
+            if(matchingPrediction != null) {
+                InteractionManager.rollback(matchingPrediction);
+            }
         }
+        InteractionManager.unblockthread();
     }
 }
-
-// packetPrediction.setPrediction(entity); // Assign the predicted packet behavior to the PacketPrediction object
-
-// ClientPacketListener clientPacketListener = (ClientPacketListener) (Object) this;
-// ClientLevel clientLevel = clientPacketListener.getLevel();
-// Entity entity = clientLevel.getEntity(rPacket.getId());

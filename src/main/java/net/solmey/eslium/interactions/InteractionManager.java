@@ -1,29 +1,35 @@
 package net.solmey.eslium.interactions;
 
+import java.util.concurrent.Semaphore;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.network.protocol.Packet;
 import net.minecraft.world.entity.Entity;
 import net.solmey.eslium.data.Data;
 import net.solmey.eslium.data.PacketPrediction;
 
 public class InteractionManager {
 
-    public boolean blockthread;
+    private static final Semaphore semaphore = new Semaphore(1);
     // When the game interact with the world you may need to add or remove every predictions, then allow it to do whatever he wants
     // But between the time it adds or removes predictions another thread may modify the world
-    // That's why blockthread exists : to block the a thread until it gets the authorization to run its code
+    // That's why semaphore is here : to block the a thread until it gets the authorization to run its code
 
-	// Remove the prediction linked to the packet and the packet itself
-    public static void rollback(Packet<?> packet) {
-        // If we rollback only 1 prediction, it may overwrite another prediction, so here is the fix :
-        removeAllPredictions();
-        Data.predictions.removeIf(p -> p.getPacket().equals(packet));
+    public static void blockthread() {
+        semaphore.acquireUninterruptibly();
     }
 
+    public static void unblockthread() {
+        semaphore.release();
+    }
+
+	// Remove the prediction linked to the packet and the packet itself
     public static void rollback(PacketPrediction packetPrediction) {
         // If we rollback only 1 prediction, it may overwrite another prediction, so here is the fix :
-        removeAllPredictions();
+        //removeAllPredictions();
+        // Removed because the developper needs to remember that after the rollback predictions are not added back
+        // + for now it's only rollbacked after a removeAllPredictions()
+
         Data.predictions.remove(packetPrediction);
     }
 

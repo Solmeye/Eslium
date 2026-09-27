@@ -50,6 +50,7 @@ public class MinecraftMixin {
         ClientLevel clientLevel = (ClientLevel) player.level();
 
         MixinMode.mixinMode = true;
+        InteractionManager.blockthread();
         InteractionManager.addAllPredictions();
 
 
@@ -74,15 +75,18 @@ public class MinecraftMixin {
 
 
         InteractionManager.removeAllPredictions();
+        InteractionManager.unblockthread();
         MixinMode.mixinMode = false;
 
 
 
         // We need to keep track of the simulated packets to link them to the predictions (to detect rollbacks with packets)
         Data.extractPackets(Data.predictedPackets); // Extract all packets from predictedPackets
+        InteractionManager.blockthread();
         for (var packet : Data.predictedPackets) {
             Data.predictions.add(new PacketPrediction(packet, System.nanoTime(), null, null));
         }
+        InteractionManager.unblockthread();
     }
 
     @Inject(method = "runTick", at = @At("HEAD")) // Each frame
@@ -98,11 +102,15 @@ public class MinecraftMixin {
             ClientPacketListener connection = Minecraft.getInstance().getConnection();
 
             for (var packet : Data.predictedPackets) {
+                InteractionManager.blockthread();
+
                 // We need to check if the prediction (and the packet) have been cancelled before applying the prediction
                 if (Data.predictions.stream()
                         .anyMatch(prediction -> prediction.getPacket() == packet)) {
                     packet.handle(connection);
                 }
+
+                InteractionManager.unblockthread();
             }
             Data.predictedPackets.clear();
         }
@@ -114,11 +122,14 @@ public class MinecraftMixin {
             .nanosecondsPerTick();
         float margin = MSPT * 2;
 
+        InteractionManager.blockthread();
         for (PacketPrediction packetPrediction : Data.predictions) {
 
-            if(MixinMode.lastTimestamp > packetPrediction.getTimestamp() + margin)
-                InteractionManager.rollback(packetPrediction.getPacket());
+            if(MixinMode.lastTimestamp > packetPrediction.getTimestamp() + margin) {
+                InteractionManager.rollback(packetPrediction);
+            }
         }
+        InteractionManager.unblockthread();
     }
 
     /*@Inject(
