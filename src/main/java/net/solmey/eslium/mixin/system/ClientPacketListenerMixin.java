@@ -17,7 +17,7 @@ public class ClientPacketListenerMixin {
             target = "Lnet/minecraft/client/gui/components/DebugScreenOverlay;showNetworkCharts()Z"
         )
     ) // Tick from the debug screen overlay that pings the server to estimate the latency
-    private boolean eslium$showNetworkCharts(DebugScreenOverlay instance) {
+    private boolean eslium$tick(DebugScreenOverlay instance) {
         return true;
     }
 }

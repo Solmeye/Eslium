@@ -45,7 +45,7 @@ public class ConnectionMixin {
         method = "channelRead0(Lio/netty/channel/ChannelHandlerContext;Lnet/minecraft/network/protocol/Packet;)V",
         at = @At("HEAD")
     )
-    private void eslium$onPacketReceive(ChannelHandlerContext context, Packet<?> packet, CallbackInfo ci) {
+    private void eslium$channelRead0HEAD(ChannelHandlerContext context, Packet<?> packet, CallbackInfo ci) {
         if (!Eslium.shouldWork()) return;
 
         InteractionManager.blockthread();
@@ -78,7 +78,7 @@ public class ConnectionMixin {
         method = "channelRead0(Lio/netty/channel/ChannelHandlerContext;Lnet/minecraft/network/protocol/Packet;)V",
         at = @At("TAIL")
     )
-    private void eslium$onPacketReceiveTAIL(ChannelHandlerContext context, Packet<?> packet, CallbackInfo ci) {
+    private void eslium$channelRead0TAIL(ChannelHandlerContext context, Packet<?> packet, CallbackInfo ci) {
         if (!Eslium.shouldWork()) return;
 
 
