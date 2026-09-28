@@ -6,6 +6,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.Connection;
@@ -135,11 +136,13 @@ public class MinecraftMixin {
         InteractionManager.unblockthread();
     }
 
-    /*@Inject(
+    @Inject(
             method = "disconnect(Lnet/minecraft/client/gui/screens/Screen;ZZ)V",
             at = @At("HEAD")
     ) // When the client is disconnected from the server
     private void eslium$disconnect(Screen screen, boolean keepResourcePacks, boolean stopSound, CallbackInfo ci) {
-
-    }*/
+        Data.sentPackets.clear();
+        Data.predictedPackets.clear();
+        Data.predictions.clear();
+    }
 }
