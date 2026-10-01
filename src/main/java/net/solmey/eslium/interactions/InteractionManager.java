@@ -27,12 +27,13 @@ public class InteractionManager {
 
 	// Remove the prediction linked to the packet and the packet itself
     public static void rollback(PacketPrediction packetPrediction) {
-        // If we rollback only 1 prediction, it may overwrite another prediction, so here is the fix :
-        //removeAllPredictions();
-        // Removed because the developper needs to remember that after the rollback predictions are not added back
-        // + for now it's only rollbacked after a removeAllPredictions()
+        boolean temp = predictionApplied;
 
-        Data.predictions.remove(packetPrediction);
+        removeAllPredictions();
+        Data.predictions.remove(packetPrediction); // If we rollback only 1 prediction, it may overwrite another prediction, so here is the fix (up and down):
+        if(temp) {
+            addAllPredictions();
+        }
     }
 
     public static void addAllPredictions() {
