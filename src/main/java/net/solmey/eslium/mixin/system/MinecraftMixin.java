@@ -110,7 +110,7 @@ public class MinecraftMixin {
                 if (Data.predictions.stream()
                         .anyMatch(prediction -> prediction.getPacket() == packet)) {
 
-                    connection.genericsFtw(packet, packetListener); // Handle the packet
+                    Connection.genericsFtw(packet, packetListener); // Handle the packet
                 }
 
                 InteractionManager.unblockthread();
