@@ -21,7 +21,9 @@ public class InteractionManager {
         semaphore.acquireUninterruptibly();
     }
 
+
     public static void unblockthread() {
+        removeAllPredictions(); // To ensure the game cannot interact with any prediction
         semaphore.release();
     }
 

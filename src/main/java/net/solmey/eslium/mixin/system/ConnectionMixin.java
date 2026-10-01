@@ -98,8 +98,6 @@ public class ConnectionMixin {
             else if (packet instanceof ClientboundSetEntityDataPacket rPacket) {
 
             }
-
-            InteractionManager.removeAllPredictions();
         }
         else {
 

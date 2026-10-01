@@ -25,7 +25,6 @@ public class ClientLevelMixin {
     private void eslium$tickEntitiesTAIL(CallbackInfo ci) {
         if (!Eslium.shouldWork()) return;
 
-        InteractionManager.removeAllPredictions();
         InteractionManager.unblockthread();
     }
 

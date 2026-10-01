@@ -76,7 +76,6 @@ public class MinecraftMixin {
 
 
 
-        InteractionManager.removeAllPredictions();
         InteractionManager.unblockthread();
         MixinMode.mixinMode = false;
 

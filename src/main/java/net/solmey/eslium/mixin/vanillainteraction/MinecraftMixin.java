@@ -31,7 +31,6 @@ public class MinecraftMixin {
     ) {
         if (!Eslium.shouldWork()) return;
 
-        InteractionManager.removeAllPredictions();
         InteractionManager.unblockthread();
     }
 }
