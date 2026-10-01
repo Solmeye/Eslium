@@ -15,6 +15,8 @@ public class InteractionManager {
     // But between the time it adds or removes predictions another thread may modify the world
     // That's why semaphore is here : to block the a thread until it gets the authorization to run its code
 
+    private static boolean predictionApplied;
+
     public static void blockthread() {
         semaphore.acquireUninterruptibly();
     }
@@ -34,6 +36,10 @@ public class InteractionManager {
     }
 
     public static void addAllPredictions() {
+
+        if(predictionApplied)
+            return;
+
         Minecraft minecraft = Minecraft.getInstance();
         ClientLevel clientLevel = minecraft.level;
 
@@ -58,10 +64,15 @@ public class InteractionManager {
 
             }
         }
+
+        predictionApplied = true;
     }
 
     // Remove all predictions from the client game
     public static void removeAllPredictions() {
+
+        if(!predictionApplied)
+            return;
 
         Minecraft minecraft = Minecraft.getInstance();
         ClientLevel clientLevel = minecraft.level;
@@ -91,5 +102,7 @@ public class InteractionManager {
             }
             packetPrediction.setRealState(null);
         }
+
+        predictionApplied = false;
     }
 }
