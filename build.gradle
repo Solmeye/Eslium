@@ -30,7 +30,8 @@ def modProps = [
         "loader_version"              : project.loader_version,
         "constraint_fabric_loader"          : project.constraint_fabric_loader,
         "constraint_java"                    : project.constraint_java,
-        "maven_minecraft"                    : project.maven_minecraft
+        "maven_minecraft"                    : project.maven_minecraft,
+        "java_target"                    : project.java_target
 ]
 
 processResources {
@@ -42,7 +43,7 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.release = 25
+	it.options.release = java_target.toInteger()
 }
 
 tasks.jar {
@@ -53,8 +54,8 @@ tasks.jar {
 java {
 	//withSourcesJar()
 
-	sourceCompatibility = JavaVersion.VERSION_25
-	targetCompatibility = JavaVersion.VERSION_25
+	sourceCompatibility = JavaVersion.toVersion(java_target)
+	targetCompatibility = JavaVersion.toVersion(java_target)
 }
 
 jar {
