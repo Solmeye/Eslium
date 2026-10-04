@@ -1,0 +1,52 @@
+# modLoader="javafml"                           # default
+# loaderVersion=""                              # default
+license="${license}"
+# showAsResourcePack=false                      # default
+# showAsDataPack=false                          # default
+# services=[]                                   # useless
+# properties={}                                 # useless
+issueTrackerURL="${modrinth}"
+
+[[mods]]
+modId="${id}"
+# namespace                                     # default
+version="${version}"
+displayName="${name}"
+description="${description}"
+iconFile="${icon}"
+# bannerFile=""                                 # TODO
+# logoFile="${icon}"                            # DEPRECATED see iconFile and bannerFile
+# logoBlur=true                                 # default
+# updateJSONURL                                 # TODO
+# modUrl                                        # "Unused" as of 10.04.26 https://docs.neoforged.net/docs/gettingstarted/modfiles/
+# credits=""                                    # useless
+authors="${authors}"
+displayURL="${homepage}"
+# enumExtensions=                               # useless
+# featureFlags=                                 # useless
+
+[[mixins]]
+config="${id}.mixins.json"
+# requiredMods=[""]                             # useless
+# behaviorVersion=""                            # useless
+
+#[[accessTransformers]]                         # default
+#file="META-INF/accesstransformer.cfg"          # default
+
+[[dependencies.${id}]]
+    modId="minecraft"
+    type="required"
+    # reason=""                                 # TODO
+    versionRange="${neoforge_minecraft_range}"
+    # ordering="NONE"                           # default
+    # side="BOTH"                               # default
+    referralUrl="https://www.minecraft.net/en-us/about-minecraft"
+
+# [[dependencies.${id}]]
+    # modId="neoforge"
+    # type="required"
+    # # reason=""                               # TODO
+    # versionRange="{neo_version}"
+    # # ordering="NONE"                         # default
+    # # side="BOTH"                             # default
+    # referralUrl="https://neoforged.net/"

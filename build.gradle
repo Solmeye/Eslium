@@ -28,13 +28,14 @@ def modProps = [
         "minecraft_range"             : project.minecraft_range,
         "loader_version"              : project.loader_version,
         "min_loader_version"          : project.min_loader_version,
-        "min_java"                    : project.min_java
+        "min_java"                    : project.min_java,
+        "neoforge_minecraft_range"                    : project.neoforge_minecraft_range
 ]
 
 processResources {
     inputs.properties(modProps)
 
-    filesMatching(["fabric.mod.json", "eslium.mixins.json"]) {
+    filesMatching(["fabric.mod.json", "eslium.mixins.json", "META-INF/neoforge.mods.toml"]) {
         expand(modProps)
     }
 }
@@ -45,6 +46,7 @@ tasks.withType(JavaCompile).configureEach {
 
 tasks.jar {
     archiveFileName = "${rootProject.name}-${version}+${minecraft_version}.jar"
+    exclude("net/neoforged/**")
 }
 
 java {
