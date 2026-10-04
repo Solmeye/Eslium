@@ -6,10 +6,6 @@
 		"version": "${version}",
 		"depends": [
   		{
-  			"id": "quilt_loader",
-  			"versions": ">=0.19.1"
-  		},
-  		{
   			"id": "minecraft",
   			"versions": "${constraint_minecraft}"
   		}

@@ -41,12 +41,3 @@ config="${id}.mixins.json"
     # ordering="NONE"                           # default
     # side="BOTH"                               # default
     referralUrl="https://www.minecraft.net/en-us/about-minecraft"
-
-# [[dependencies.${id}]]
-    # modId="neoforge"
-    # type="required"
-    # # reason=""                               # TODO
-    # versionRange="{neo_version}"
-    # # ordering="NONE"                         # default
-    # # side="BOTH"                             # default
-    # referralUrl="https://neoforged.net/"
