@@ -5,7 +5,7 @@ license="${license}"
 # showAsDataPack=false                          # default
 # services=[]                                   # useless
 # properties={}                                 # useless
-issueTrackerURL="${modrinth}"
+issueTrackerURL="${issues}"
 
 [[mods]]
 modId="${id}"

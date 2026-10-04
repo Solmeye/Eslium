@@ -7,8 +7,10 @@
   "authors": ["${author}"],
   "contact": {
     "homepage": "${homepage}",
-    "discord": "${discord}"
-  },
+		"sources": "${sources}",
+		"issues": "${issues}",
+		"discord": "${discord}"
+	},
   "license": "${license}",
   "icon": "${icon}",
   "environment": "client",
