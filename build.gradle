@@ -26,11 +26,11 @@ def modProps = [
         "discord"                     : project.discord,
         "license"                     : project.license,
         "icon"                        : project.icon,
-        "minecraft_range"             : project.minecraft_range,
+        "constraint_minecraft"             : project.constraint_minecraft,
         "loader_version"              : project.loader_version,
-        "min_loader_version"          : project.min_loader_version,
-        "min_java"                    : project.min_java,
-        "neoforge_minecraft_range"                    : project.neoforge_minecraft_range
+        "constraint_fabric_loader"          : project.constraint_fabric_loader,
+        "constraint_java"                    : project.constraint_java,
+        "maven_minecraft"                    : project.maven_minecraft
 ]
 
 processResources {

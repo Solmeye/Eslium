@@ -1,7 +1,7 @@
 {
   "required": true,
   "package": "${group}.mixin",
-  "compatibilityLevel": "JAVA_${min_java}",
+  "compatibilityLevel": "JAVA_${constraint_java}",
   "mixins": [
     "entrypoint.MinecraftMixin",
 

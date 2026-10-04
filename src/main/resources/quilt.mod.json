@@ -11,7 +11,7 @@
   		},
   		{
   			"id": "minecraft",
-  			"versions": "${minecraft_range}"
+  			"versions": "${constraint_minecraft}"
   		}
 		],
 		"intermediate_mappings": "net.fabricmc:intermediary",
