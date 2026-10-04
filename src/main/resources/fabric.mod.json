@@ -4,7 +4,7 @@
   "version": "${version}",
   "name": "${name}",
   "description": "${description}",
-  "authors": ["${authors}"],
+  "authors": ["${author}"],
   "contact": {
     "homepage": "${homepage}",
     "discord": "${discord}"

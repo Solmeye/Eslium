@@ -19,7 +19,7 @@ def modProps = [
         "name"                    : project.name,
         "version"                 : project.version,
         "description"                 : project.description,
-        "authors"                     : project.authors,
+        "author"                     : project.author,
         "homepage"                    : project.homepage,
         "sources"                    : project.sources,
         "issues"                    : project.issues,
