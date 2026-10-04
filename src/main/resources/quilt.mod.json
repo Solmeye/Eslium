@@ -24,7 +24,7 @@
 				"discord": "${discord}"
 			},
 			"license": "${license}",
-			"icon": "assets/example_mod/icon.png"
+			"icon": "${icon}"
 		}
 	},
 	"mixin": "${id}.mixins.json",
