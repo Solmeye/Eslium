@@ -20,7 +20,7 @@ iconFile="${icon}"
 # updateJSONURL                                 # TODO
 # modUrl                                        # "Unused" as of 10.04.26 https://docs.neoforged.net/docs/gettingstarted/modfiles/
 # credits=""                                    # useless
-authors="${authors}"
+authors="${author}"
 displayURL="${homepage}"
 # enumExtensions=                               # useless
 # featureFlags=                                 # useless
