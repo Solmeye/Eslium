@@ -2,9 +2,6 @@ plugins {
 	id 'net.fabricmc.fabric-loom' version "${loom_version}"
 }
 
-version = project.version
-group = project.group
-
 repositories {
 }
 
