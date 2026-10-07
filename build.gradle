@@ -37,7 +37,7 @@ def modProps = [
 processResources {
     inputs.properties(modProps)
 
-    filesMatching(["fabric.mod.json", "quilt.mod.json", "META-INF/neoforge.mods.toml", "META-INF/mods.toml", "eslium.mixins.json"]) {
+    filesMatching(["fabric.mod.json", "quilt.mod.json", "META-INF/neoforge.mods.toml", "META-INF/mods.toml", id + ".mixins.json"]) {
         expand(modProps)
     }
 }
@@ -63,7 +63,7 @@ jar {
 }
 
 loom {
-    accessWidenerPath = file("src/main/resources/eslium.accesswidener")
+    accessWidenerPath = file("src/main/resources/${id}.accesswidener")
 
         runs {
         client {
@@ -73,7 +73,7 @@ loom {
 }
 
 def generateAT = tasks.register("generateAT") {
-    def aw = file("src/main/resources/eslium.accesswidener")
+    def aw = file("src/main/resources/${id}.accesswidener")
     def out = layout.buildDirectory.file("generated/at/META-INF/accesstransformer.cfg")
 
     inputs.file(aw)
