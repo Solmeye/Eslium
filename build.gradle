@@ -46,12 +46,6 @@ tasks.withType(JavaCompile).configureEach {
 	it.options.release = java_target.toInteger()
 }
 
-tasks.jar {
-    archiveFileName = "${rootProject.name}-${version}+${minecraft_version}.jar"
-    exclude("net/neoforged/**")
-    exclude("net/minecraftforge/**")
-}
-
 java {
 	//withSourcesJar()
 
@@ -75,5 +69,52 @@ loom {
         client {
             programArgs "--username", "Username"
         }
+    }
+}
+
+def generateAT = tasks.register("generateAT") {
+    def aw = file("src/main/resources/eslium.accesswidener")
+    def out = layout.buildDirectory.file("generated/at/META-INF/accesstransformer.cfg")
+
+    inputs.file(aw)
+    outputs.file(out)
+
+    doLast {
+        def lines = aw.readLines("UTF-8")
+            .findAll { it && !it.startsWith("#") && !it.startsWith("accessWidener") }
+
+        def result = lines.collect { line ->
+            def p = line.trim().split(/\s+/)
+            def access = p[0] == "accessible" ? "public" : "public-f"
+            def owner = p[2].replace('/', '.')
+
+            switch (p[1]) {
+                case "class":
+                    "$access $owner"
+                    break
+                case "method":
+                    "$access $owner ${p[3]}${p[4]}"
+                    break
+                case "field":
+                    "$access $owner ${p[3]}"
+                    break
+            }
+        }
+
+        def file = out.get().asFile
+        file.parentFile.mkdirs()
+        file.text = result.join("\n") + "\n"
+    }
+}
+
+tasks.jar {
+    archiveFileName = "${rootProject.name}-${version}+${minecraft_version}.jar"
+    exclude("net/neoforged/**")
+    exclude("net/minecraftforge/**")
+
+    dependsOn(generateAT)
+
+    from(generateAT) {
+        into("META-INF")
     }
 }
