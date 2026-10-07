@@ -12,21 +12,21 @@ dependencies {
 
 def modProps = [
         "group"                 : project.group,
-        "id"                      : project.id,
-        "name"                    : project.name,
-        "version"                 : project.version,
-        "description"                 : project.description,
-        "author"                     : project.author,
-        "homepage"                    : project.homepage,
-        "sources"                    : project.sources,
-        "issues"                    : project.issues,
-        "discord"                     : project.discord,
-        "license"                     : project.license,
-        "icon"                        : project.icon,
-        "minecraft_range"             : project.minecraft_range,
-        "loader_version"              : project.loader_version,
-        "min_loader_version"          : project.min_loader_version,
-        "min_java"                    : project.min_java
+        "id"                    : project.id,
+        "name"                  : project.name,
+        "version"               : project.version,
+        "description"           : project.description,
+        "author"                : project.author,
+        "homepage"              : project.homepage,
+        "sources"               : project.sources,
+        "issues"                : project.issues,
+        "discord"               : project.discord,
+        "license"               : project.license,
+        "icon"                  : project.icon,
+        "minecraft_range"       : project.minecraft_range,
+        "loader_version"        : project.loader_version,
+        "min_loader_version"    : project.min_loader_version,
+        "min_java"              : project.min_java
 ]
 
 processResources {
