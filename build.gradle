@@ -42,7 +42,7 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 tasks.jar {
-    archiveFileName = "${rootProject.name}-${version}+${minecraft_version}.jar"
+    archiveFileName = "${id}-${version}+${minecraft_version}.jar"
 }
 
 java {
