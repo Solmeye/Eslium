@@ -101,6 +101,9 @@ public class MinecraftMixin {
             Data.timestampNanoNextServerTick = -1;
 
             Connection connection = Minecraft.getInstance().pendingConnection;
+            if(connection == null)
+                return;
+
             PacketListener packetListener = connection.getPacketListener();
 
             for (Packet<?> packet : Data.predictedPackets) {
