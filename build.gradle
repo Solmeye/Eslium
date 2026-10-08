@@ -6,27 +6,27 @@ repositories {
 }
 
 dependencies {
-	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	minecraft "com.mojang:minecraft:${minecraft_version}"
+	implementation "net.fabricmc:fabric-loader:${loader_version}"
 }
 
 def modProps = [
-        "group"                 : project.group,
-        "id"                    : project.id,
-        "name"                  : project.name,
-        "version"               : project.version,
-        "description"           : project.description,
-        "author"                : project.author,
-        "homepage"              : project.homepage,
-        "sources"               : project.sources,
-        "issues"                : project.issues,
-        "discord"               : project.discord,
-        "license"               : project.license,
-        "icon"                  : project.icon,
-        "minecraft_range"       : project.minecraft_range,
-        "loader_version"        : project.loader_version,
-        "min_loader_version"    : project.min_loader_version,
-        "min_java"              : project.min_java
+        "group"                 : group,
+        "id"                    : id,
+        "name"                  : name,
+        "version"               : version,
+        "description"           : description,
+        "author"                : author,
+        "homepage"              : homepage,
+        "sources"               : sources,
+        "issues"                : issues,
+        "discord"               : discord,
+        "license"               : license,
+        "icon"                  : icon,
+        "minecraft_range"       : minecraft_range,
+        "loader_version"        : loader_version,
+        "min_loader_version"    : min_loader_version,
+        "min_java"              : min_java
 ]
 
 processResources {
@@ -50,7 +50,7 @@ java {
 }
 
 jar {
-	def projectName = project.name
+	def projectName = name
 	inputs.property "projectName", projectName
 
 	from("LICENSE") {
