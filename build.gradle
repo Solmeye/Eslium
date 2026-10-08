@@ -8,28 +8,30 @@ dependencies {
 }
 
 def modProps = [
-        "group"                 : group,
-        "id"                    : id,
-        "name"                  : name,
-        "version"               : version,
-        "description"           : description,
-        "author"                : author,
-        "homepage"              : homepage,
-        "sources"               : sources,
-        "issues"                : issues,
-        "discord"               : discord,
-        "license"               : license,
-        "icon"                  : icon,
-        "minecraft_range"       : minecraft_range,
-        "loader_version"        : loader_version,
-        "min_loader_version"    : min_loader_version,
-        "min_java"              : min_java
+        "group"                     : group,
+        "id"                        : id,
+        "name"                      : name,
+        "version"                   : version,
+        "description"               : description,
+        "author"                    : author,
+        "homepage"                  : homepage,
+        "sources"                   : sources,
+        "issues"                    : issues,
+        "discord"                   : discord,
+        "license"                   : license,
+        "icon"                      : icon,
+        "constraint_minecraft"      : constraint_minecraft,
+        "loader_version"            : loader_version,
+        "constraint_fabric_loader"  : constraint_fabric_loader,
+        "constraint_java"           : constraint_java,
+        "maven_minecraft"           : maven_minecraft,
+        "java_target"               : java_target
 ]
 
 processResources {
     inputs.properties(modProps)
 
-    filesMatching(["fabric.mod.json", "eslium.mixins.json"]) {
+    filesMatching(["fabric.mod.json", "quilt.mod.json", "META-INF/neoforge.mods.toml", "META-INF/mods.toml", id + ".mixins.json"]) {
         expand(modProps)
     }
 }
@@ -38,20 +40,64 @@ tasks.withType(JavaCompile).configureEach {
 	it.options.release = 25
 }
 
+loom {
+    accessWidenerPath = file("src/main/resources/${id}.accesswidener")
+
+        runs {
+        client {
+            programArgs "--username", "Username"
+        }
+    }
+}
+
+def generateAT = tasks.register("generateAT") {
+    def aw = file("src/main/resources/${id}.accesswidener")
+    def out = layout.buildDirectory.file("generated/at/META-INF/accesstransformer.cfg")
+
+    inputs.file(aw)
+    outputs.file(out)
+
+    doLast {
+        def lines = aw.readLines("UTF-8")
+            .findAll { it && !it.startsWith("#") && !it.startsWith("accessWidener") }
+
+        def result = lines.collect { line ->
+            def p = line.trim().split(/\s+/)
+            def access = p[0] == "accessible" ? "public" : "public-f"
+            def owner = p[2].replace('/', '.')
+
+            switch (p[1]) {
+                case "class":
+                    "$access $owner"
+                    break
+                case "method":
+                    "$access $owner ${p[3]}${p[4]}"
+                    break
+                case "field":
+                    "$access $owner ${p[3]}"
+                    break
+            }
+        }
+
+        def file = out.get().asFile
+        file.parentFile.mkdirs()
+        file.text = result.join("\n") + "\n"
+    }
+}
+
 jar {
     archiveFileName = "${id}-${version}+${minecraft_version}.jar"
 
 	from("LICENSE") {
 		rename { "${it}_${modProps.name}"}
 	}
-}
 
-loom {
-    accessWidenerPath = file("src/main/resources/eslium.accesswidener")
+    exclude("net/neoforged/**")
+    exclude("net/minecraftforge/**")
 
-        runs {
-        client {
-            programArgs "--username", "Username"
-        }
+    dependsOn(generateAT)
+
+    from(generateAT) {
+        into("META-INF")
     }
 }

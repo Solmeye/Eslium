@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+	"quilt_loader": {
+	  "group": "${group}",
+		"id": "${id}",
+		"version": "${version}",
+		"depends": [
+  		{
+  			"id": "minecraft",
+  			"versions": "${constraint_minecraft}"
+  		}
+		],
+		"intermediate_mappings": "net.fabricmc:intermediary",
+		"metadata": {
+			"name": "${name}",
+			"description": "${description}",
+			"contributors": {
+				"${author}": "Owner"
+			},
+			"contact": {
+				"homepage": "${homepage}",
+				"sources": "${sources}",
+				"issues": "${issues}",
+				"discord": "${discord}"
+			},
+			"license": "${license}",
+			"icon": "${icon}"
+		}
+	},
+	"mixin": "${id}.mixins.json",
+  "accessWidener": "${id}.accesswidener"
+}
