@@ -14,7 +14,7 @@ version="${version}"
 displayName="${name}"
 description="${description}"
 iconFile="${icon}"
-# bannerFile=""                                 # TODO
+bannerFile="${icon}"
 # logoFile="${icon}"                            # DEPRECATED see iconFile and bannerFile
 # logoBlur=true                                 # default
 # updateJSONURL                                 # TODO
