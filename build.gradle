@@ -41,11 +41,8 @@ tasks.withType(JavaCompile).configureEach {
 jar {
     archiveFileName = "${id}-${version}+${minecraft_version}.jar"
 
-	def projectName = name
-	inputs.property "projectName", projectName
-
 	from("LICENSE") {
-		rename { "${it}_$projectName"}
+		rename { "${it}_${modProps.name}"}
 	}
 }
 
