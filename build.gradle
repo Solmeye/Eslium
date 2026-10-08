@@ -8,22 +8,24 @@ dependencies {
 }
 
 def modProps = [
-        "group"                 : group,
-        "id"                    : id,
-        "name"                  : name,
-        "version"               : version,
-        "description"           : description,
-        "author"                : author,
-        "homepage"              : homepage,
-        "sources"               : sources,
-        "issues"                : issues,
-        "discord"               : discord,
-        "license"               : license,
-        "icon"                  : icon,
-        "minecraft_range"       : minecraft_range,
-        "loader_version"        : loader_version,
-        "min_loader_version"    : min_loader_version,
-        "min_java"              : min_java
+        "group"                     : group,
+        "id"                        : id,
+        "name"                      : name,
+        "version"                   : version,
+        "description"               : description,
+        "author"                    : author,
+        "homepage"                  : homepage,
+        "sources"                   : sources,
+        "issues"                    : issues,
+        "discord"                   : discord,
+        "license"                   : license,
+        "icon"                      : icon,
+        "constraint_minecraft"      : constraint_minecraft,
+        "loader_version"            : loader_version,
+        "constraint_fabric_loader"  : constraint_fabric_loader,
+        "constraint_java"           : constraint_java,
+        "maven_minecraft"           : maven_minecraft,
+        "java_target"               : java_target
 ]
 
 processResources {
@@ -36,14 +38,6 @@ processResources {
 
 tasks.withType(JavaCompile).configureEach {
 	it.options.release = 25
-}
-
-jar {
-    archiveFileName = "${id}-${version}+${minecraft_version}.jar"
-
-	from("LICENSE") {
-		rename { "${it}_${modProps.name}"}
-	}
 }
 
 loom {
@@ -91,8 +85,13 @@ def generateAT = tasks.register("generateAT") {
     }
 }
 
-tasks.jar {
-    archiveFileName = "${rootProject.name}-${version}+${minecraft_version}.jar"
+jar {
+    archiveFileName = "${id}-${version}+${minecraft_version}.jar"
+
+	from("LICENSE") {
+		rename { "${it}_${modProps.name}"}
+	}
+
     exclude("net/neoforged/**")
     exclude("net/minecraftforge/**")
 
