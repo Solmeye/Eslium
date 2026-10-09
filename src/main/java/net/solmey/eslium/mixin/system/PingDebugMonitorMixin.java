@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.client.multiplayer.PingDebugMonitor;
 import net.minecraft.network.protocol.ping.ClientboundPongResponsePacket;
 import net.solmey.eslium.Eslium;
+import net.solmey.eslium.data.Data;
 import net.solmey.eslium.server.MixinMode;
 
 @Mixin(PingDebugMonitor.class)
