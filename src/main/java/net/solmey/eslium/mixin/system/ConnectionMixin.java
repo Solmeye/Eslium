@@ -70,7 +70,7 @@ public class ConnectionMixin {
             InteractionManager.addAllPredictions();
         }
         else { // if the packet is real
-            InteractionManager.removeAllPredictions();
+            // InteractionManager.removeAllPredictions();
         }
     }
 
