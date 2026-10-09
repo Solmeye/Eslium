@@ -47,24 +47,26 @@ public class InteractionManager {
         ClientLevel clientLevel = minecraft.level;
 
         for (PacketPrediction packetPrediction : Data.predictions) {
-            Object prediction = packetPrediction.getPrediction();
+            if(packetPrediction.isHandled()) {
+                Object prediction = packetPrediction.getPrediction();
 
-            // Apply the prediction
-            if(prediction instanceof Entity entity) {
-                clientLevel.addEntity(entity);
-                entity.removalReason = null; // entity.unsetRemoved();
-            }
-            else {
+                // Save real state
+                if(prediction instanceof Entity entity) {
+                    Entity realEntity = clientLevel.getEntity(entity.getId());
+                    packetPrediction.setRealState(realEntity);
+                }
+                else {
 
-            }
+                }
 
-            // Save real state
-            if(prediction instanceof Entity entity) {
-                Entity realEntity = clientLevel.getEntity(entity.getId());
-                packetPrediction.setRealState(realEntity);
-            }
-            else {
+                // Apply the prediction
+                if(prediction instanceof Entity entity) {
+                    clientLevel.addEntity(entity);
+                    entity.removalReason = null; // entity.unsetRemoved();
+                }
+                else {
 
+                }
             }
         }
 
@@ -82,28 +84,32 @@ public class InteractionManager {
 
         for (int i = Data.predictions.size() - 1; i >= 0; i--) {
             PacketPrediction packetPrediction = Data.predictions.get(i);
-            // Remove the prediction
-            Object prediction = packetPrediction.getPrediction();
 
-            // Sometimes the realstate is null - removing the prediction first is needed
-            if(prediction instanceof Entity entity) {
-                entity.remove(Entity.RemovalReason.DISCARDED);
+            if(packetPrediction.isHandled()) {
+
+                // Remove the prediction
+                Object prediction = packetPrediction.getPrediction();
+
+                // Sometimes the realstate is null - removing the prediction first is needed
+                if(prediction instanceof Entity entity) {
+                    entity.remove(Entity.RemovalReason.DISCARDED);
+                }
+                else {
+
+                }
+
+                // Apply and clear the realState
+                Object realState = packetPrediction.getRealState();
+
+                if(realState instanceof Entity realEntity) {
+                    clientLevel.addEntity(realEntity);
+                    realEntity.removalReason = null;
+                }
+                else {
+
+                }
+                packetPrediction.setRealState(null);
             }
-            else {
-
-            }
-
-            // Apply and clear the realState
-            Object realState = packetPrediction.getRealState();
-
-            if(realState instanceof Entity realEntity) {
-                clientLevel.addEntity(realEntity);
-                realEntity.removalReason = null;
-            }
-            else {
-
-            }
-            packetPrediction.setRealState(null);
         }
 
         predictionApplied = false;

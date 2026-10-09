@@ -8,8 +8,6 @@ import net.minecraft.network.protocol.game.ClientboundBundlePacket;
 
 public class Data {
 
-    public static long timestampNanoNextServerTick = -1;
-
     public static List<Packet<?>>                           sentPackets         = new ArrayList<>();    // Packets sent to the server
     public static List<Packet<?>>                           predictedPackets    = new ArrayList<>();    // Simulated packets to extract and package in predictions
     public static List<PacketPrediction>                    predictions         = new ArrayList<>();    // Predictions

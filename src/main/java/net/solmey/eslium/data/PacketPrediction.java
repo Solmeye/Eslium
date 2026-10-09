@@ -10,20 +10,31 @@ public class PacketPrediction {
     private long timestamp;
     private Object realState;   // Original data of the modified thing(s) of the real world, if the predictions are applied
     private Object prediction;  // Data of state before applying the prediction
+    private boolean handled;
 
     public PacketPrediction(
         Packet<?> packet,
         long timestamp,
         @Nullable Object realState,
-        @Nullable Object prediction
+        @Nullable Object prediction,
+        boolean handled
     ) {
         this.packet = packet;
         this.timestamp = timestamp;
         this.realState = realState;
         this.prediction = prediction;
+        this.prediction = handled;
     }
 
-    public Packet<?> getPacket() {
+    public boolean isHandled() {
+		return handled;
+	}
+
+	public void setHandled(boolean handled) {
+		this.handled = handled;
+	}
+
+	public Packet<?> getPacket() {
         return packet;
     }
 

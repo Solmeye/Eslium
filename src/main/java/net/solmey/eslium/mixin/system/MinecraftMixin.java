@@ -31,18 +31,6 @@ public class MinecraftMixin {
 
         LocalPlayer player = Minecraft.getInstance().player;
         SimulatedInventory.saveServerInventory(player);
-
-        // Calculate the timestamp of the next server tick
-
-        long MSPTnano = Minecraft.getInstance()
-            .level.tickRateManager()
-            .nanosecondsPerTick();
-
-        //int desync = Math.clamp(ConfigManager.getConfig().simulatedDesync, 0, 100);
-        int desync = ConfigManager.getConfig().simulatedDesync;
-        MSPTnano = MSPTnano * desync / 100;
-
-        Data.timestampNanoNextServerTick = System.nanoTime() + MSPTnano;
     }
 
     @Inject(method = "tick", at = @At("TAIL")) // End of the client tick, start of the server tick
@@ -85,53 +73,48 @@ public class MinecraftMixin {
         Data.extractPackets(Data.predictedPackets); // Extract all packets from predictedPackets
         InteractionManager.blockthread();
         for (var packet : Data.predictedPackets) {
-            Data.predictions.add(new PacketPrediction(packet, System.nanoTime(), null, null));
+            Data.predictions.add(new PacketPrediction(packet, System.nanoTime(), null, null, false));
         }
         InteractionManager.unblockthread();
+        Data.predictedPackets.clear();
     }
 
     @Inject(method = "runTick", at = @At("HEAD")) // Each frame
     private void eslium$runTick(boolean advanceGameTime, CallbackInfo ci) {
         if (!Eslium.shouldWork()) return;
 
-        if (
-            Data.timestampNanoNextServerTick != -1 &&
-            System.nanoTime() >= Data.timestampNanoNextServerTick
-        ) {
-            Data.timestampNanoNextServerTick = -1;
-
-            Connection connection = Minecraft.getInstance().pendingConnection;
-            if(connection == null)
-                return;
-
-            PacketListener packetListener = connection.getPacketListener();
-
-            for (Packet<?> packet : Data.predictedPackets) {
-                InteractionManager.blockthread();
-
-                // We need to check if the prediction (and the packet) have been cancelled before applying the prediction
-                if (Data.predictions.stream()
-                        .anyMatch(prediction -> prediction.getPacket() == packet)) {
-
-                    Connection.genericsFtw(packet, packetListener); // Handle the packet
-                }
-
-                InteractionManager.unblockthread();
-            }
-            Data.predictedPackets.clear();
-        }
-
-
-        // Timeout check
-        float MSPT = Minecraft.getInstance()
+        long MSPT = Minecraft.getInstance()
             .level.tickRateManager()
             .nanosecondsPerTick();
+
+        // Handle packets
+        Connection connection = Minecraft.getInstance().pendingConnection;
+        if(connection != null) {
+            PacketListener packetListener = connection.getPacketListener();
+
+            // Calculate the desync / delay before applying a prediction
+            int desync = ConfigManager.getConfig().simulatedDesync;
+            long delay = MSPT * desync / 100;
+
+            InteractionManager.blockthread();
+            for (PacketPrediction packetPrediction : Data.predictions) {
+                if(!packetPrediction.isHandled() &&
+                    System.nanoTime() >= (packetPrediction.getTimestamp() + delay)
+                ) {
+                    Connection.genericsFtw(packetPrediction.getPacket(), packetListener); // Handle the packet
+                    packetPrediction.setHandled(true);
+                }
+            }
+            InteractionManager.unblockthread();
+        }
+
+        // Timeout check
         float margin = MSPT * 2;
 
         InteractionManager.blockthread();
         for (PacketPrediction packetPrediction : Data.predictions) {
 
-            if(MixinMode.lastTimestamp > packetPrediction.getTimestamp() + margin) {
+            if(MixinMode.lastTimestampNano > packetPrediction.getTimestamp() + margin) {
                 InteractionManager.rollback(packetPrediction);
             }
         }
