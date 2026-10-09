@@ -114,7 +114,7 @@ public class MinecraftMixin {
         InteractionManager.blockthread();
         for (PacketPrediction packetPrediction : Data.predictions) {
 
-            if(MixinMode.lastTimestampNano > packetPrediction.getTimestamp() + margin) {
+            if(Data.lastTimestampNano > packetPrediction.getTimestamp() + margin) {
                 InteractionManager.rollback(packetPrediction);
             }
         }

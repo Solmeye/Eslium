@@ -18,6 +18,6 @@ public class PingDebugMonitorMixin {
         if (!Eslium.shouldWork())
             return;
 
-        MixinMode.lastTimestampNano = pongPacket.time() * 1_000_000;
+        Data.lastTimestampNano = pongPacket.time() * 1_000_000;
     }
 }
