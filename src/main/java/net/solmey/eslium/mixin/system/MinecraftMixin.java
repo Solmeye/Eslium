@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.Connection;
 import net.minecraft.network.PacketListener;
@@ -88,8 +89,9 @@ public class MinecraftMixin {
             .nanosecondsPerTick();
 
         // Handle packets
-        Connection connection = Minecraft.getInstance().pendingConnection;
-        if(connection != null) {
+        ClientPacketListener clientPacketListener = Minecraft.getInstance().getConnection();
+        if(clientPacketListener != null) {
+            Connection connection = clientPacketListener.getConnection();
             PacketListener packetListener = connection.getPacketListener();
 
             // Calculate the desync / delay before applying a prediction
