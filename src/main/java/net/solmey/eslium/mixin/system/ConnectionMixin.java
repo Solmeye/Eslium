@@ -6,15 +6,13 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import net.minecraft.network.protocol.Packet;
 import io.netty.channel.ChannelFutureListener;
-import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.network.Connection;
-import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.PacketListener;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
 import net.solmey.eslium.Eslium;
 import net.solmey.eslium.data.Data;
@@ -42,10 +40,10 @@ public class ConnectionMixin {
     }
 
     @Inject(
-        method = "channelRead0(Lio/netty/channel/ChannelHandlerContext;Lnet/minecraft/network/protocol/Packet;)V",
+        method = "genericsFtw(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketListener;)V",
         at = @At("HEAD")
     )
-    private void eslium$channelRead0HEAD(ChannelHandlerContext context, Packet<?> packet, CallbackInfo ci) {
+    private static void eslium$genericsFtwHEAD(final Packet<?> packet, final PacketListener listener, CallbackInfo ci) {
         if (!Eslium.shouldWork()) return;
 
         InteractionManager.blockthread();
@@ -75,10 +73,10 @@ public class ConnectionMixin {
     }
 
     @Inject(
-        method = "channelRead0(Lio/netty/channel/ChannelHandlerContext;Lnet/minecraft/network/protocol/Packet;)V",
+        method = "genericsFtw(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketListener;)V",
         at = @At("TAIL")
     )
-    private void eslium$channelRead0TAIL(ChannelHandlerContext context, Packet<?> packet, CallbackInfo ci) {
+    private static void eslium$genericsFtwTAIL(final Packet<?> packet, final PacketListener listener, CallbackInfo ci) {
         if (!Eslium.shouldWork()) return;
 
 
