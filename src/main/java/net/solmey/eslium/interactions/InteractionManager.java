@@ -10,7 +10,7 @@ import net.solmey.eslium.data.PacketPrediction;
 
 public class InteractionManager {
 
-    private static final Semaphore semaphore = new Semaphore(1);
+    private static final Semaphore semaphore = new Semaphore(1); // ReentrantLock
     // When the game interact with the world you may need to add or remove every predictions, then allow it to do whatever he wants
     // But between the time it adds or removes predictions another thread may modify the world
     // That's why semaphore is here : to block the a thread until it gets the authorization to run its code

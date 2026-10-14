@@ -6,6 +6,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import net.minecraft.world.entity.Entity;
+import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;
 import io.netty.channel.ChannelFutureListener;
 import net.minecraft.client.Minecraft;
@@ -45,6 +47,9 @@ public class ConnectionMixin {
     )
     private static void eslium$genericsFtwHEAD(final Packet<?> packet, final PacketListener listener, CallbackInfo ci) {
         if (!Eslium.shouldWork()) return;
+
+        if (!Minecraft.getInstance().isSameThread())
+            return;
 
         InteractionManager.blockthread();
 
