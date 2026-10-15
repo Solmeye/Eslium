@@ -84,6 +84,8 @@ public class ConnectionMixin {
     private static void eslium$genericsFtwTAIL(final Packet<?> packet, final PacketListener listener, CallbackInfo ci) {
         if (!Eslium.shouldWork()) return;
 
+        if (!Minecraft.getInstance().isSameThread())
+            return;
 
         PacketPrediction packetPrediction = Data.predictions.stream()
             .filter(prediction -> prediction.getPacket().equals(packet))
