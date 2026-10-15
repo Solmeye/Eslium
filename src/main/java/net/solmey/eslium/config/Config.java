@@ -10,5 +10,5 @@ public class Config {
     //public boolean advancedMode; // anticheat bypass toggle
     public Crystal crystal = new Crystal();
     public Minecart minecart = new Minecart();
-    public int simulatedDesync = 50; // Percentage
+    public int simulatedDesync = 0; // Percentage
 }

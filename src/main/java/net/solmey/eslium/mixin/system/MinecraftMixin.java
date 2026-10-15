@@ -1,7 +1,4 @@
-package net.solmey.eslium.mixin;
-
-import java.util.Iterator;
-import java.util.Map;
+package net.solmey.eslium.mixin.system;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -9,16 +6,19 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.Connection;
+import net.minecraft.network.PacketListener;
 import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.solmey.eslium.Eslium;
 import net.solmey.eslium.config.ConfigManager;
 import net.solmey.eslium.data.Data;
+import net.solmey.eslium.data.PacketPrediction;
+import net.solmey.eslium.interactions.InteractionManager;
 import net.solmey.eslium.predictions.UseItemOnPacket;
-import net.solmey.eslium.rollback.InteractionManager;
 import net.solmey.eslium.server.MixinMode;
 import net.solmey.eslium.server.SimulatedInventory;
 import net.solmey.eslium.server.SimulatedLevel;
@@ -32,17 +32,6 @@ public class MinecraftMixin {
 
         LocalPlayer player = Minecraft.getInstance().player;
         SimulatedInventory.saveServerInventory(player);
-
-        // Calculate the timestamp of the next server tick
-
-        long MSPTnano = Minecraft.getInstance()
-            .level.tickRateManager()
-            .nanosecondsPerTick();
-
-        int desync = Math.clamp(ConfigManager.getConfig().simulatedDesync, 0, 100);
-        MSPTnano = MSPTnano * desync / 100;
-
-        Data.timestampNanoNextServerTick = System.nanoTime() + MSPTnano;
     }
 
     @Inject(method = "tick", at = @At("TAIL")) // End of the client tick, start of the server tick
@@ -52,7 +41,8 @@ public class MinecraftMixin {
         ClientLevel clientLevel = (ClientLevel) player.level();
 
         MixinMode.mixinMode = true;
-        InteractionManager.showEntities();
+        InteractionManager.blockthread();
+        InteractionManager.addAllPredictions();
 
 
 
@@ -75,68 +65,71 @@ public class MinecraftMixin {
 
 
 
-        InteractionManager.hideEntities();
+        InteractionManager.unblockthread();
         MixinMode.mixinMode = false;
 
 
 
-        // If the real packet from the server is received before handling it, we need to rollback anyways
-        Data.extractPackets(Data.predictedPackets);
-        Data.extractedToBeValidedPackets.putAll(Data.predictedPackets);
+        // We need to keep track of the simulated packets to link them to the predictions (to detect rollbacks with packets)
+        Data.extractPackets(Data.predictedPackets); // Extract all packets from predictedPackets
+        InteractionManager.blockthread();
+        for (var packet : Data.predictedPackets) {
+            Data.predictions.add(new PacketPrediction(packet, System.nanoTime(), null, null, false));
+        }
+        InteractionManager.unblockthread();
+        Data.predictedPackets.clear();
     }
 
     @Inject(method = "runTick", at = @At("HEAD")) // Each frame
     private void eslium$runTick(boolean advanceGameTime, CallbackInfo ci) {
         if (!Eslium.shouldWork()) return;
 
-        if (
-            Data.timestampNanoNextServerTick != -1 &&
-            System.nanoTime() >= Data.timestampNanoNextServerTick
-        ) {
-            Data.timestampNanoNextServerTick = -1;
+        long MSPT = Minecraft.getInstance()
+            .level.tickRateManager()
+            .nanosecondsPerTick();
 
-            ClientPacketListener connection = Minecraft.getInstance().getConnection();
+        // Handle packets
+        ClientPacketListener clientPacketListener = Minecraft.getInstance().getConnection();
+        if(clientPacketListener != null) {
+            Connection connection = clientPacketListener.getConnection();
+            PacketListener packetListener = connection.getPacketListener();
 
-            for (var entry : Data.predictedPackets.entries()) {
-                Packet<ClientGamePacketListener> packet = entry.getValue();
+            // Calculate the desync / delay before applying a prediction
+            int desync = ConfigManager.getConfig().simulatedDesync;
+            long delay = MSPT * desync / 100;
 
-                if(Data.extractedToBeValidedPackets.containsValue(packet)) {
-                    packet.handle(connection);
+            InteractionManager.blockthread();
+            for (PacketPrediction packetPrediction : Data.predictions) {
+                if(!packetPrediction.isHandled() &&
+                    System.nanoTime() >= (packetPrediction.getTimestamp() + delay)
+                ) {
+                    Connection.genericsFtw(packetPrediction.getPacket(), packetListener); // Handle the packet
+                    packetPrediction.setHandled(true);
                 }
             }
-            Data.predictedPackets.clear();
-
-            InteractionManager.hideEntities();
+            InteractionManager.unblockthread();
         }
 
+        // Timeout check
+        float margin = MSPT * 2;
 
-        //InteractionManager.showEntities();
-        Iterator<Map.Entry<Long, Packet<ClientGamePacketListener>>> iterator =
-                Data.extractedToBeValidedPackets.entries().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry<Long, Packet<ClientGamePacketListener>> entry = iterator.next();
+        InteractionManager.blockthread();
+        for (PacketPrediction packetPrediction : Data.predictions) {
 
-            long timestamp = entry.getKey();
-            Packet<ClientGamePacketListener> packet = entry.getValue();
-
-            float MSPT = Minecraft.getInstance()
-                .level.tickRateManager()
-                .millisecondsPerTick();
-
-            if (MixinMode.lastTimestamp > timestamp + MSPT * 2) {
-                //System.out.println("TIMEOUT\n");
-                //Rollback.rollback(packet);
-                iterator.remove();
+            if(Data.lastTimestampNano > packetPrediction.getTimestamp() + margin) {
+                InteractionManager.rollback(packetPrediction);
             }
         }
-        //InteractionManager.hideEntities();
+        InteractionManager.unblockthread();
     }
 
-    /*@Inject(
+    @Inject(
             method = "disconnect(Lnet/minecraft/client/gui/screens/Screen;ZZ)V",
             at = @At("HEAD")
     ) // When the client is disconnected from the server
     private void eslium$disconnect(Screen screen, boolean keepResourcePacks, boolean stopSound, CallbackInfo ci) {
-
-    }*/
+        Data.sentPackets.clear();
+        Data.predictedPackets.clear();
+        Data.predictions.clear();
+    }
 }
