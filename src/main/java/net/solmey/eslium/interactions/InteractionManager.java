@@ -1,6 +1,6 @@
 package net.solmey.eslium.interactions;
 
-import java.util.concurrent.Semaphore;
+import java.util.concurrent.locks.ReentrantLock;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -10,21 +10,21 @@ import net.solmey.eslium.data.PacketPrediction;
 
 public class InteractionManager {
 
-    private static final Semaphore semaphore = new Semaphore(1); // ReentrantLock
+    private static final ReentrantLock lock = new ReentrantLock();
     // When the game interact with the world you may need to add or remove every predictions, then allow it to do whatever he wants
     // But between the time it adds or removes predictions another thread may modify the world
-    // That's why semaphore is here : to block the a thread until it gets the authorization to run its code
+    // That's why ReentrantLock is here : to block the a thread until it gets the authorization to run its code
 
     private static boolean predictionApplied;
 
     public static void blockthread() {
-        semaphore.acquireUninterruptibly();
+        lock.lock();
     }
 
 
     public static void unblockthread() {
         removeAllPredictions(); // To ensure the game cannot interact with any prediction
-        semaphore.release();
+        lock.unlock();
     }
 
 	// Remove the prediction linked to the packet and the packet itself
