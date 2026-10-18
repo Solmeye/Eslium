@@ -18,6 +18,7 @@ public class InteractionManager {
     private static boolean predictionApplied;
 
     public static void blockthread() {
+        removeAllPredictions();
         lock.lock();
     }
 
