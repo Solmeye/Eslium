@@ -23,8 +23,10 @@ public class InteractionManager {
 
 
     public static void unblockthread() {
-        removeAllPredictions(); // To ensure the game cannot interact with any prediction
-        lock.unlock();
+        if (lock.isHeldByCurrentThread()) {
+            removeAllPredictions(); // To ensure the game cannot interact with any prediction
+            lock.unlock();
+        }
     }
 
 	// Remove the prediction linked to the packet and the packet itself

@@ -8,3 +8,6 @@ accessible field net/minecraft/world/item/MinecartItem type Lnet/minecraft/world
 
 accessible field net/minecraft/client/Minecraft pendingConnection Lnet/minecraft/network/Connection;
 accessible method net/minecraft/network/Connection genericsFtw (Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketListener;)V
+
+accessible class net/minecraft/network/PacketProcessor$ListenerAndPacket
+accessible field net/minecraft/network/PacketProcessor$ListenerAndPacket packet Lnet/minecraft/network/protocol/Packet;
