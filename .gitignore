@@ -4,4 +4,5 @@ doc/
 build/
 bin/
 run/
+.classpath
 .project
