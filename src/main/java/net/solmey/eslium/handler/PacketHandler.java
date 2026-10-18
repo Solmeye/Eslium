@@ -20,7 +20,7 @@ public class PacketHandler {
         InteractionManager.blockthread();
 
         PacketPrediction packetPrediction = Data.predictions.stream()
-            .filter(prediction -> prediction.getPacket().equals(packet))
+            .filter(prediction -> prediction.getPacket().equals(packet) && !prediction.isHandled())
             .findFirst()
             .orElse(null);
 
@@ -49,7 +49,7 @@ public class PacketHandler {
             return;
 
         PacketPrediction packetPrediction = Data.predictions.stream()
-            .filter(prediction -> prediction.getPacket().equals(packet))
+            .filter(prediction -> prediction.getPacket().equals(packet) && !prediction.isHandled())
             .findFirst()
             .orElse(null);
 
@@ -65,6 +65,7 @@ public class PacketHandler {
 
             }
 
+            packetPrediction.setHandled(true);
         }
         else {
 
