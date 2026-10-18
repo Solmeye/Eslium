@@ -111,6 +111,7 @@ public class PacketHandler {
             }
 
             if(matchingPrediction != null) {
+                System.out.println("rollback" + packet);
                 InteractionManager.rollback(matchingPrediction);
             }
         }

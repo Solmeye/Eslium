@@ -28,9 +28,12 @@ public class ClientPacketListenerMixin {
 
     @Inject(
         method = "handleBundlePacket",
-        at = @At("HEAD")
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/network/protocol/Packet;handle(Lnet/minecraft/network/PacketListener;)V"
+        )
     )
-    private void eslium$handleBundlePacketHEAD(ClientboundBundlePacket packet, CallbackInfo ci) {
+    private void eslium$handleBundlePacketBEFORE(ClientboundBundlePacket packet, CallbackInfo ci) {
         if (!Eslium.shouldWork()) return;
 
         PacketHandler.head(packet);
@@ -38,9 +41,13 @@ public class ClientPacketListenerMixin {
 
     @Inject(
         method = "handleBundlePacket",
-        at = @At("TAIL")
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/network/protocol/Packet;handle(Lnet/minecraft/network/PacketListener;)V",
+            shift = At.Shift.AFTER
+        )
     )
-    private void eslium$handleBundlePacketTAIL(ClientboundBundlePacket packet, CallbackInfo ci) {
+    private void eslium$handleBundlePacketAFTER(ClientboundBundlePacket packet, CallbackInfo ci) {
         if (!Eslium.shouldWork()) return;
 
         PacketHandler.tail(packet);
