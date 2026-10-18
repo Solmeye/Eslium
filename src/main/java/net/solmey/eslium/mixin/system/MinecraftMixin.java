@@ -104,7 +104,6 @@ public class MinecraftMixin {
                     System.nanoTime() >= (packetPrediction.getTimestamp() + delay)
                 ) {
                     Connection.genericsFtw(packetPrediction.getPacket(), packetListener); // Handle the packet
-                    packetPrediction.setHandled(true);
                 }
             }
             InteractionManager.unblockthread();
