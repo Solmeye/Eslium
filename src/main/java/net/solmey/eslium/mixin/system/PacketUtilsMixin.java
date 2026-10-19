@@ -5,44 +5,40 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import net.minecraft.network.PacketProcessor;
-import net.minecraft.network.PacketProcessor.ListenerAndPacket;
+import net.minecraft.network.protocol.PacketUtils;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.util.thread.BlockableEventLoop;
+
+import net.minecraft.network.PacketListener;
 import net.solmey.eslium.Eslium;
 import net.solmey.eslium.handler.PacketHandler;
 
-@Mixin(PacketProcessor.ListenerAndPacket.class)
-public class PacketProcessorMixin {
+@Mixin(PacketUtils.class)
+public class PacketUtilsMixin {
 
     @Inject(
-        method = "handle",
+        method = "ensureRunningOnSameThread",
         at = @At(
             value = "INVOKE",
             target = "Lnet/minecraft/network/protocol/Packet;handle(Lnet/minecraft/network/PacketListener;)V"
         )
     )
-    private void eslium$handleBEFORE(CallbackInfo ci) {
+    private void eslium$handleBEFORE(Packet<?> packet, PacketListener packetListener, BlockableEventLoop<?> blockableEventLoop, CallbackInfo ci) {
         if (!Eslium.shouldWork()) return;
-
-        ListenerAndPacket listenerAndPacketAccessor = (ListenerAndPacket) (Object) this;
-        Packet<?> packet = listenerAndPacketAccessor.packet;
 
         PacketHandler.head(packet);
     }
 
     @Inject(
-        method = "handle",
+        method = "ensureRunningOnSameThread",
         at = @At(
             value = "INVOKE",
             target = "Lnet/minecraft/network/protocol/Packet;handle(Lnet/minecraft/network/PacketListener;)V",
             shift = At.Shift.AFTER
         )
     )
-    private void eslium$handleAFTER(CallbackInfo ci) {
+    private void eslium$handleAFTER(Packet<?> packet, PacketListener packetListener, BlockableEventLoop<?> blockableEventLoop, CallbackInfo ci) {
         if (!Eslium.shouldWork()) return;
-
-        ListenerAndPacket listenerAndPacketAccessor = (ListenerAndPacket) (Object) this;
-        Packet<?> packet = listenerAndPacketAccessor.packet;
 
         PacketHandler.tail(packet);
     }

@@ -11,7 +11,7 @@
     "system.ClientPacketListenerMixin",
     "system.ConnectionMixin",
     "system.MinecraftMixin",
-    "system.PacketProcessorMixin",
+    "system.PacketUtilsMixin",
     "system.PingDebugMonitorMixin",
 
     "vanillainteraction.MinecraftMixin",
