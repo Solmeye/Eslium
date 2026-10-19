@@ -15,7 +15,7 @@ displayName="${name}"
 description="${description}"
 logoFile="${icon}"
 # logoBlur=true                                 # default
-# updateJSONURL                                 # TODO
+updateJSONURL = "https://api.modrinth.com/updates/zaVwh7an/forge_updates.json"
 # modUrl                                        # "Unused" as of 10.04.26 https://docs.neoforged.net/docs/gettingstarted/modfiles/
 # credits=""                                    # useless
 authors="${author}"
