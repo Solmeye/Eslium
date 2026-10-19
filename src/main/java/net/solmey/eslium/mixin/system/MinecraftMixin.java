@@ -110,7 +110,7 @@ public class MinecraftMixin {
         }
 
         // Timeout check
-        float margin = MSPT * 2;
+        float margin = MSPT + (MSPT * Math.min(0, ConfigManager.getConfig().tickTimeTolerance) / 100);
 
         InteractionManager.blockthread();
         for (PacketPrediction packetPrediction : Data.predictions) {
