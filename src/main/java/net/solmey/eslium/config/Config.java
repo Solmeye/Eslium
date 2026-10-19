@@ -11,4 +11,5 @@ public class Config {
     public Crystal crystal = new Crystal();
     public Minecart minecart = new Minecart();
     public int simulatedDesync = 0; // Percentage
+    public int tickTimeTolerance = 100; // Percentage
 }
