@@ -11,12 +11,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.multiplayer.ClientPacketListener;
-import net.minecraft.client.multiplayer.PingDebugMonitor;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.Connection;
 import net.minecraft.network.PacketListener;
 import net.minecraft.network.protocol.Packet;
-import net.minecraft.util.debugchart.LocalSampleLogger;
 import net.solmey.eslium.Eslium;
 import net.solmey.eslium.config.ConfigManager;
 import net.solmey.eslium.data.Data;
@@ -123,7 +121,7 @@ public class MinecraftMixin {
         InteractionManager.blockthread();
         for (PacketPrediction packetPrediction : new ArrayList<>(Data.predictions)) {
 
-            if(latency < System.nanoTime() - packetPrediction.getTimestamp() + margin) {
+            if(Data.lastTimestampNano > packetPrediction.getTimestamp() + margin) {
                 InteractionManager.rollback(packetPrediction);
             }
         }
