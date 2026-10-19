@@ -102,7 +102,7 @@ public class MinecraftMixin {
             InteractionManager.blockthread();
             for (PacketPrediction packetPrediction : Data.predictions) {
                 if(!packetPrediction.isHandled() &&
-                    System.nanoTime() >= (packetPrediction.getTimestamp() + delay)
+                    System.nanoTime() >= packetPrediction.getTimestamp() + delay
                 ) {
                     Connection.genericsFtw(packetPrediction.getPacket(), packetListener); // Handle the packet
                 }
@@ -116,7 +116,7 @@ public class MinecraftMixin {
 
         long maxNSPT = NSPT * Math.min(0, ConfigManager.getConfig().tickTimeTolerance) / 100;
         long margin = NSPT + maxNSPT;
-        long latency = localSampleLogger.get(localSampleLogger.size() - 1);
+        long latency = localSampleLogger.get(localSampleLogger.size() - 1) * 1_000_000;
 
         InteractionManager.blockthread();
         for (PacketPrediction packetPrediction : Data.predictions) {
