@@ -86,7 +86,7 @@ public class MinecraftMixin {
     private void eslium$runTick(boolean advanceGameTime, CallbackInfo ci) {
         if (!Eslium.shouldWork()) return;
 
-        long MSPT = Minecraft.getInstance()
+        long NSPT = Minecraft.getInstance()
             .level.tickRateManager()
             .nanosecondsPerTick();
 
@@ -98,7 +98,7 @@ public class MinecraftMixin {
 
             // Calculate the desync / delay before applying a prediction
             int desync = ConfigManager.getConfig().simulatedDesync;
-            long delay = MSPT * desync / 100;
+            long delay = NSPT * desync / 100;
 
             InteractionManager.blockthread();
             for (PacketPrediction packetPrediction : Data.predictions) {
@@ -112,7 +112,7 @@ public class MinecraftMixin {
         }
 
         // Timeout check
-        float margin = MSPT + (MSPT * Math.min(0, ConfigManager.getConfig().tickTimeTolerance) / 100);
+        float margin = NSPT + (NSPT * Math.min(0, ConfigManager.getConfig().tickTimeTolerance) / 100);
 
         PingDebugMonitor pingDebugMonitor = clientPacketListener.pingDebugMonitor;
         LocalSampleLogger localSampleLogger = pingDebugMonitor.delayTimer;
