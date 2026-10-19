@@ -97,7 +97,7 @@ public class MinecraftMixin {
             PacketListener packetListener = connection.getPacketListener();
 
             // Calculate the desync / delay before applying a prediction
-            long delay = NSPT * ConfigManager.getConfig().simulatedDesync / 100;
+            long delay = NSPT * Math.min(0, ConfigManager.getConfig().simulatedDesync) / 100;
 
             InteractionManager.blockthread();
             for (PacketPrediction packetPrediction : Data.predictions) {
