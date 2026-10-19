@@ -17,27 +17,27 @@ import net.solmey.eslium.handler.PacketHandler;
 public class PacketUtilsMixin {
 
     @Inject(
-        method = "ensureRunningOnSameThread",
+        method = "ensureRunningOnSameThread(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketListener;Lnet/minecraft/util/thread/BlockableEventLoop;)V",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/network/protocol/Packet;handle(Lnet/minecraft/network/PacketListener;)V"
+            target = "Lnet/minecraft/util/thread/BlockableEventLoop;executeIfPossible(Ljava/lang/Runnable;)V"
         )
     )
-    private void eslium$handleBEFORE(Packet<?> packet, PacketListener packetListener, BlockableEventLoop<?> blockableEventLoop, CallbackInfo ci) {
+    private static <T extends PacketListener> void eslium$ensureRunningOnSameThreadBEFORE(Packet<?> packet, PacketListener packetListener, BlockableEventLoop<?> blockableEventLoop, CallbackInfo ci) {
         if (!Eslium.shouldWork()) return;
 
         PacketHandler.head(packet);
     }
 
     @Inject(
-        method = "ensureRunningOnSameThread",
+        method = "ensureRunningOnSameThread(Lnet/minecraft/network/protocol/Packet;Lnet/minecraft/network/PacketListener;Lnet/minecraft/util/thread/BlockableEventLoop;)V",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/network/protocol/Packet;handle(Lnet/minecraft/network/PacketListener;)V",
+            target = "Lnet/minecraft/util/thread/BlockableEventLoop;executeIfPossible(Ljava/lang/Runnable;)V",
             shift = At.Shift.AFTER
         )
     )
-    private void eslium$handleAFTER(Packet<?> packet, PacketListener packetListener, BlockableEventLoop<?> blockableEventLoop, CallbackInfo ci) {
+    private static <T extends PacketListener> void eslium$ensureRunningOnSameThreadAFTER(Packet<?> packet, PacketListener packetListener, BlockableEventLoop<?> blockableEventLoop, CallbackInfo ci) {
         if (!Eslium.shouldWork()) return;
 
         PacketHandler.tail(packet);
