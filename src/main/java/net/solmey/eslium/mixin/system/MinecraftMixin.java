@@ -112,7 +112,7 @@ public class MinecraftMixin {
         }
 
         // Timeout check
-        float margin = NSPT + (NSPT * Math.min(0, ConfigManager.getConfig().tickTimeTolerance) / 100);
+        long margin = NSPT + (NSPT * Math.min(0, ConfigManager.getConfig().tickTimeTolerance) / 100);
 
         PingDebugMonitor pingDebugMonitor = clientPacketListener.pingDebugMonitor;
         LocalSampleLogger localSampleLogger = pingDebugMonitor.delayTimer;
