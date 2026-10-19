@@ -99,7 +99,7 @@ public class MinecraftMixin {
             PacketListener packetListener = connection.getPacketListener();
 
             // Calculate the desync / delay before applying a prediction
-            long delay = NSPT * Math.min(0, ConfigManager.getConfig().simulatedDesync) / 100;
+            long delay = NSPT * Math.max(0, ConfigManager.getConfig().simulatedDesync) / 100;
 
             InteractionManager.blockthread();
             for (PacketPrediction packetPrediction : Data.predictions) {
@@ -116,7 +116,7 @@ public class MinecraftMixin {
         PingDebugMonitor pingDebugMonitor = clientPacketListener.pingDebugMonitor;
         LocalSampleLogger localSampleLogger = pingDebugMonitor.delayTimer;
 
-        long maxNSPT = NSPT * Math.min(0, ConfigManager.getConfig().tickTimeTolerance) / 100;
+        long maxNSPT = NSPT * Math.max(0, ConfigManager.getConfig().tickTimeTolerance) / 100;
         long margin = NSPT + maxNSPT;
         long latency = localSampleLogger.get(localSampleLogger.size() - 1) * 1_000_000;
 
