@@ -27,45 +27,4 @@ public class ClientLevelMixin {
 
         InteractionManager.unblockthread();
     }
-
-
-    /*@Inject(method = "tickEntities", at = @At("TAIL"))
-    private void eslium$tickEntities(CallbackInfo ci) {
-        if (!Eslium.shouldWork()) return;
-
-        ClientLevel clientLevel = (ClientLevel) (Object) this;
-
-
-
-
-        List<Entity> realEntities = new ArrayList<>();
-        for (Entity entity : clientLevel.entitiesForRendering()) {
-            realEntities.add(entity);
-        }
-
-
-        for (Entity entity : realEntities) {
-            clientLevel.entityStorage.removeEntity(entity);
-        }
-
-
-
-        InteractionManager.showEntities();
-
-        // If incompatibility with another mod I might just call tickEntites itself
-        clientLevel.tickingEntities.forEach(entity -> {
-			if (!entity.isRemoved() && !entity.isPassenger() && !clientLevel.tickRateManager.isEntityFrozen(entity)) {
-				clientLevel.guardEntityTick(clientLevel::tickNonPassenger, entity);
-			}
-		});
-
-        InteractionManager.hideEntities();
-
-
-        for (Entity entity : realEntities) {
-            clientLevel.entityStorage.addEntity(entity);
-        }
-
-
-        }*/
 }
