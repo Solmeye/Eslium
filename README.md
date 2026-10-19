@@ -94,7 +94,8 @@ When using an end crystal on obisidian or bedrock, the spawn of the end crystal 
   "minecart": {
     "enabled": true
   },
-  "simulatedDesync": 0
+  "simulatedDesync": 0,
+  "tickTimeTolerance": 100
 }
 ```
 
@@ -114,7 +115,9 @@ When using an end crystal on obisidian or bedrock, the spawn of the end crystal 
   - `enabled` Enable or disable the minecart prediction
 
 - `simulatedDesync` Percentage of maximum client-server tick desynchronization time used to simulate vanilla desynchronization. Useful for replicating vanilla
-No. This desynchronization is simulated by an artificial time delay of half a tick. desynchronization. In singleplayer this would be `0`, and on a local server this would be at `50` on average. Note that server packets always have priority over delayed packets, which means if the server sends a packet before this artificial delay, the effective desync is reduced. That's why setting it to 50 doesn't mean you will always have half a tick of delay<br>`min`: 0 `max`: 100
+No. This desynchronization is simulated by an artificial time delay of half a tick. desynchronization. In singleplayer this would be 0, and on a local server this would be at 50 on average. Note that server packets always have priority over delayed packets, which means if the server sends a packet before this artificial delay, the effective desync is reduced. That's why setting it to 50 doesn't mean you will always have half a tick of delay<br>`min`: 0 `max`: ∞
+
+- `tickTimeTolerance`: Percentage tolerance of tick time (typically MSPT) allowed before a rollback occurs<br>`min`: 0 `max`: ∞
 
 
 </details>
