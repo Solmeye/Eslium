@@ -123,7 +123,7 @@ public class MinecraftMixin {
         InteractionManager.blockthread();
         for (PacketPrediction packetPrediction : new ArrayList<>(Data.predictions)) {
 
-            if(latency > System.nanoTime() - packetPrediction.getTimestamp() + margin) {
+            if(latency < System.nanoTime() - packetPrediction.getTimestamp() + margin) {
                 InteractionManager.rollback(packetPrediction);
             }
         }
