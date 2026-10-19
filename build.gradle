@@ -102,3 +102,7 @@ jar {
         into("META-INF")
     }
 }
+
+remapJar {
+    archiveFileName = "${id}-${version}+${minecraft_version}.jar"
+}
