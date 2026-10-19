@@ -15,6 +15,7 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.Connection;
 import net.minecraft.network.PacketListener;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.util.Util;
 import net.solmey.eslium.Eslium;
 import net.solmey.eslium.config.ConfigManager;
 import net.solmey.eslium.data.Data;
@@ -76,7 +77,7 @@ public class MinecraftMixin {
         Data.extractPackets(Data.predictedPackets); // Extract all packets from predictedPackets
         InteractionManager.blockthread();
         for (var packet : Data.predictedPackets) {
-            Data.predictions.add(new PacketPrediction(packet, System.nanoTime(), null, null, false));
+            Data.predictions.add(new PacketPrediction(packet, Util.getNanos(), null, null, false));
         }
         InteractionManager.unblockthread();
         Data.predictedPackets.clear();
@@ -102,7 +103,7 @@ public class MinecraftMixin {
             InteractionManager.blockthread();
             for (PacketPrediction packetPrediction : Data.predictions) {
                 if(!packetPrediction.isHandled() &&
-                    System.nanoTime() >= packetPrediction.getTimestamp() + delay
+                    Util.getNanos() >= packetPrediction.getTimestamp() + delay
                 ) {
                     Connection.genericsFtw(packetPrediction.getPacket(), packetListener); // Handle the packet
                 }
