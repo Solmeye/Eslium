@@ -1,5 +1,7 @@
 package net.solmey.eslium.mixin.system;
 
+import java.util.ArrayList;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -119,7 +121,7 @@ public class MinecraftMixin {
         long latency = localSampleLogger.get(localSampleLogger.size() - 1) * 1_000_000;
 
         InteractionManager.blockthread();
-        for (PacketPrediction packetPrediction : Data.predictions) {
+        for (PacketPrediction packetPrediction : new ArrayList<>(Data.predictions)) {
 
             if(latency > System.nanoTime() - packetPrediction.getTimestamp() + margin) {
                 InteractionManager.rollback(packetPrediction);
