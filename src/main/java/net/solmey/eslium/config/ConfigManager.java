@@ -8,7 +8,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import net.solmey.eslium.Eslium;
-
 public class ConfigManager {
 
     private static final Gson GSON = new GsonBuilder()
