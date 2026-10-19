@@ -111,12 +111,8 @@ public class MinecraftMixin {
         }
 
         // Timeout check
-        PingDebugMonitor pingDebugMonitor = clientPacketListener.pingDebugMonitor;
-        LocalSampleLogger localSampleLogger = pingDebugMonitor.delayTimer;
-
         long maxNSPT = NSPT * Math.max(0, ConfigManager.getConfig().tickTimeTolerance) / 100;
         long margin = NSPT + maxNSPT;
-        long latency = localSampleLogger.get(localSampleLogger.size() - 1) * 1_000_000;
 
         InteractionManager.blockthread();
         for (PacketPrediction packetPrediction : new ArrayList<>(Data.predictions)) {
