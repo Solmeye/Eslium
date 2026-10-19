@@ -1,5 +1,7 @@
 package net.solmey.eslium.mixin.system;
 
+import java.util.ArrayList;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -13,6 +15,7 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.Connection;
 import net.minecraft.network.PacketListener;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.util.Util;
 import net.solmey.eslium.Eslium;
 import net.solmey.eslium.config.ConfigManager;
 import net.solmey.eslium.data.Data;
@@ -74,7 +77,7 @@ public class MinecraftMixin {
         Data.extractPackets(Data.predictedPackets); // Extract all packets from predictedPackets
         InteractionManager.blockthread();
         for (var packet : Data.predictedPackets) {
-            Data.predictions.add(new PacketPrediction(packet, System.nanoTime(), null, null, false));
+            Data.predictions.add(new PacketPrediction(packet, Util.getNanos(), null, null, false));
         }
         InteractionManager.unblockthread();
         Data.predictedPackets.clear();
@@ -84,7 +87,7 @@ public class MinecraftMixin {
     private void eslium$runTick(boolean advanceGameTime, CallbackInfo ci) {
         if (!Eslium.shouldWork()) return;
 
-        long MSPT = Minecraft.getInstance()
+        long NSPT = Minecraft.getInstance()
             .level.tickRateManager()
             .nanosecondsPerTick();
 
@@ -95,13 +98,12 @@ public class MinecraftMixin {
             PacketListener packetListener = connection.getPacketListener();
 
             // Calculate the desync / delay before applying a prediction
-            int desync = ConfigManager.getConfig().simulatedDesync;
-            long delay = MSPT * desync / 100;
+            long delay = NSPT * Math.max(0, ConfigManager.getConfig().simulatedDesync) / 100;
 
             InteractionManager.blockthread();
             for (PacketPrediction packetPrediction : Data.predictions) {
                 if(!packetPrediction.isHandled() &&
-                    System.nanoTime() >= (packetPrediction.getTimestamp() + delay)
+                    Util.getNanos() >= packetPrediction.getTimestamp() + delay
                 ) {
                     Connection.genericsFtw(packetPrediction.getPacket(), packetListener); // Handle the packet
                 }
@@ -110,10 +112,11 @@ public class MinecraftMixin {
         }
 
         // Timeout check
-        float margin = MSPT * 2;
+        long maxNSPT = NSPT * Math.max(0, ConfigManager.getConfig().tickTimeTolerance) / 100;
+        long margin = NSPT + maxNSPT;
 
         InteractionManager.blockthread();
-        for (PacketPrediction packetPrediction : Data.predictions) {
+        for (PacketPrediction packetPrediction : new ArrayList<>(Data.predictions)) {
 
             if(Data.lastTimestampNano > packetPrediction.getTimestamp() + margin) {
                 InteractionManager.rollback(packetPrediction);
