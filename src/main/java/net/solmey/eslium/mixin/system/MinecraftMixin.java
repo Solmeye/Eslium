@@ -126,10 +126,10 @@ public class MinecraftMixin {
     }
 
     @Inject(
-            method = "disconnect(Lnet/minecraft/client/gui/screens/Screen;ZZ)V",
+            method = "disconnect(Lnet/minecraft/client/gui/screens/Screen;Z)V",
             at = @At("HEAD")
     ) // When the client is disconnected from the server
-    private void eslium$disconnect(Screen screen, boolean keepResourcePacks, boolean stopSound, CallbackInfo ci) {
+    private void eslium$disconnect(Screen screen, boolean bl, CallbackInfo ci) {
         Data.sentPackets.clear();
         Data.predictedPackets.clear();
         Data.predictions.clear();
