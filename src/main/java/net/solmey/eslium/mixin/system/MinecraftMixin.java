@@ -9,10 +9,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.minecraft.client.multiplayer.PingDebugMonitor;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.Connection;
 import net.minecraft.network.PacketListener;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.util.debugchart.LocalSampleLogger;
 import net.solmey.eslium.Eslium;
 import net.solmey.eslium.config.ConfigManager;
 import net.solmey.eslium.data.Data;
@@ -112,10 +114,14 @@ public class MinecraftMixin {
         // Timeout check
         float margin = MSPT + (MSPT * Math.min(0, ConfigManager.getConfig().tickTimeTolerance) / 100);
 
+        PingDebugMonitor pingDebugMonitor = clientPacketListener.pingDebugMonitor;
+        LocalSampleLogger localSampleLogger = pingDebugMonitor.delayTimer;
+        long latency = localSampleLogger.get(localSampleLogger.size() - 1);
+
         InteractionManager.blockthread();
         for (PacketPrediction packetPrediction : Data.predictions) {
 
-            if(Data.lastTimestampNano > packetPrediction.getTimestamp() + margin) {
+            if(latency > System.nanoTime() - packetPrediction.getTimestamp() + margin) {
                 InteractionManager.rollback(packetPrediction);
             }
         }

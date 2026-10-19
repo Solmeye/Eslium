@@ -12,7 +12,6 @@
     "system.ConnectionMixin",
     "system.MinecraftMixin",
     "system.PacketProcessorMixin",
-    "system.PingDebugMonitorMixin",
 
     "vanillainteraction.MinecraftMixin",
     "vanillainteraction.ClientLevelMixin"
