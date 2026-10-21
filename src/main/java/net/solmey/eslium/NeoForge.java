@@ -4,7 +4,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 
 @Mod("eslium")
-public class NeoForgeEslium {
+public class NeoForge {
 
-    public NeoForgeEslium(IEventBus modEventBus) {}
+    public NeoForge(IEventBus modEventBus) {}
 }
