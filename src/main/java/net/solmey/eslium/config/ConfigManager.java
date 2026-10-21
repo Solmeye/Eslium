@@ -19,7 +19,7 @@ public class ConfigManager {
     private static Config config;
 
     private static File configDir;
-    private static Path file = configDir.toPath().resolve(Eslium.id + ".json");
+    private static Path file;
 
 
     public static void initializeConfig() {
@@ -28,6 +28,8 @@ public class ConfigManager {
 
             configDir = new File(serverRoot, "config");
         }
+
+        file = configDir.toPath().resolve(Eslium.id + ".json");
 
         if (!configDir.exists()) {
             configDir.mkdirs();
