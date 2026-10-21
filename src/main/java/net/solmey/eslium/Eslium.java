@@ -2,15 +2,10 @@ package net.solmey.eslium;
 
 import java.io.File;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import net.minecraft.client.Minecraft;
 import net.solmey.eslium.config.ConfigManager;
 
 public class Eslium {
-
-    public static final Logger LOGGER = LogManager.getLogger("eslium");
 
     public static File configDir;
 
