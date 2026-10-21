@@ -1,8 +1,11 @@
 package net.solmey.eslium;
 
+
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.fml.common.Mod;
 import net.solmey.eslium.config.ConfigManager;
 
+@Mod("eslium")
 public class Eslium {
 
     public static String id = "eslium";
