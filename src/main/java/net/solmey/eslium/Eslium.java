@@ -1,7 +1,5 @@
 package net.solmey.eslium;
 
-import java.io.File;
-
 import net.minecraft.client.Minecraft;
 import net.solmey.eslium.config.ConfigManager;
 
