@@ -93,7 +93,6 @@ jar {
 		rename { "${it}_${modProps.name}"}
 	}
 
-    exclude("net/neoforged/**")
     exclude("net/minecraftforge/**")
 
     dependsOn(generateAT)
