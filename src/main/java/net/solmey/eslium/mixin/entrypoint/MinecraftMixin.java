@@ -7,13 +7,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.main.GameConfig;
-import net.solmey.eslium.Eslium;
+import net.solmey.eslium.config.ConfigManager;
 
 @Mixin(Minecraft.class)
 public class MinecraftMixin {
 
     @Inject(method = "<init>", at = @At("RETURN")) // When the game loads
     private void eslium$onInit(GameConfig gameConfig, CallbackInfo callback) {
-        Eslium.commonInit();
+        ConfigManager.initializeConfig();
     }
 }

@@ -1,5 +1,6 @@
 package net.solmey.eslium.config;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,7 +18,21 @@ public class ConfigManager {
 
     private static Config config;
 
+    private static File configDir;
+    private static Path file = configDir.toPath().resolve(Eslium.id + ".json");
+
+
     public static void initializeConfig() {
+        if (configDir == null) {
+            File serverRoot = new File(System.getProperty("user.dir"));
+
+            configDir = new File(serverRoot, "config");
+        }
+
+        if (!configDir.exists()) {
+            configDir.mkdirs();
+        }
+
         loadConfig();
     }
 
@@ -26,8 +41,6 @@ public class ConfigManager {
     }
 
     private static void loadConfig() {
-        Path file = Eslium.getConfigDir().toPath().resolve(Eslium.id + ".json");
-
         try {
             Files.createDirectories(file.getParent());
 
@@ -43,12 +56,11 @@ public class ConfigManager {
             e.printStackTrace();
             config = new Config();
         }
+
         saveConfig(config);
     }
 
     public static void saveConfig(Config config) {
-        Path file = Eslium.getConfigDir().toPath().resolve(Eslium.id + ".json");
-
         try (var writer = Files.newBufferedWriter(file)) {
             GSON.toJson(config, writer);
         } catch (IOException e) {

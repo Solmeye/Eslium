@@ -7,30 +7,7 @@ import net.solmey.eslium.config.ConfigManager;
 
 public class Eslium {
 
-    public static File configDir;
-
     public static String id = "eslium";
-
-    public static void commonInit() {
-        ensureDirectoriesReady();
-        ConfigManager.initializeConfig();
-    }
-
-    private static void ensureDirectoriesReady() {
-        if (configDir == null) {
-            File serverRoot = new File(System.getProperty("user.dir"));
-
-            configDir = new File(serverRoot, "config");
-        }
-
-        if (!configDir.exists()) {
-            configDir.mkdirs();
-        }
-    }
-
-    public static File getConfigDir() {
-        return configDir;
-    }
 
     public static boolean shouldWork() {
         Minecraft mc = Minecraft.getInstance();
