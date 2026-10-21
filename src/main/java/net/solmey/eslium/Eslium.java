@@ -35,7 +35,6 @@ public class Eslium {
         if (
             mc.level == null ||
             mc.player == null ||
-            //mc.player.getInventory() == null ||
             mc.isLocalServer() ||
             mc.getConnection() == null
         ) {
