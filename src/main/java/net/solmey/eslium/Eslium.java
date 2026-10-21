@@ -9,6 +9,8 @@ public class Eslium {
 
     public static File configDir;
 
+    public static String id = "eslium";
+
     public static void commonInit() {
         ensureDirectoriesReady();
         ConfigManager.initializeConfig();

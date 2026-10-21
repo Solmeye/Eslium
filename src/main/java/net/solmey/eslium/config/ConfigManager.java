@@ -26,7 +26,7 @@ public class ConfigManager {
     }
 
     private static void loadConfig() {
-        Path file = Eslium.getConfigDir().toPath().resolve("eslium.json");
+        Path file = Eslium.getConfigDir().toPath().resolve(Eslium.id + ".json");
 
         try {
             Files.createDirectories(file.getParent());
@@ -47,7 +47,7 @@ public class ConfigManager {
     }
 
     public static void saveConfig(Config config) {
-        Path file = Eslium.getConfigDir().toPath().resolve("eslium.json");
+        Path file = Eslium.getConfigDir().toPath().resolve(Eslium.id + ".json");
 
         try (var writer = Files.newBufferedWriter(file)) {
             GSON.toJson(config, writer);
