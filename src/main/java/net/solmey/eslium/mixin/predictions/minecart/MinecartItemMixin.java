@@ -22,7 +22,7 @@ import net.minecraft.world.level.block.state.properties.RailShape;
 import net.minecraft.world.phys.Vec3;
 import net.solmey.eslium.Eslium;
 import net.solmey.eslium.config.ConfigManager;
-import net.solmey.eslium.server.MixinMode;
+import net.solmey.eslium.data.MixinMode;
 import net.solmey.eslium.server.SimulatedLevel;
 
 @Mixin(MinecartItem.class)

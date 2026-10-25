@@ -1,4 +1,4 @@
-package net.solmey.eslium.server;
+package net.solmey.eslium.data;
 
 public class MixinMode {
 
