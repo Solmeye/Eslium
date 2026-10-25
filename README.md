@@ -169,5 +169,8 @@ Note: I played for months with this mod and I have never been banned
 
 For a casual player, beta or release versions are recommended.
 
+### Can I include your project in my modpack?
+Yes, feel free to do so. Warning me would be nice, but it's optional.
+
 ## Compatibility
 Eslium should work on any client.
