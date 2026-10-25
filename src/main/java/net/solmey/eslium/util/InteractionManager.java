@@ -1,4 +1,4 @@
-package net.solmey.eslium.interactions;
+package net.solmey.eslium.util;
 
 import java.util.concurrent.locks.ReentrantLock;
 

@@ -21,10 +21,10 @@ import net.solmey.eslium.config.ConfigManager;
 import net.solmey.eslium.data.Data;
 import net.solmey.eslium.data.MixinMode;
 import net.solmey.eslium.data.PacketPrediction;
-import net.solmey.eslium.interactions.InteractionManager;
 import net.solmey.eslium.predictions.UseItemOnPacket;
 import net.solmey.eslium.server.SimulatedInventory;
 import net.solmey.eslium.server.SimulatedLevel;
+import net.solmey.eslium.util.InteractionManager;
 
 @Mixin(Minecraft.class)
 public class MinecraftMixin {

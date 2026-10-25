@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.solmey.eslium.Eslium;
-import net.solmey.eslium.interactions.InteractionManager;
+import net.solmey.eslium.util.InteractionManager;
 
 @Mixin(ClientLevel.class)
 public class ClientLevelMixin {

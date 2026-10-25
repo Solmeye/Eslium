@@ -9,7 +9,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
 import net.solmey.eslium.data.Data;
 import net.solmey.eslium.data.PacketPrediction;
-import net.solmey.eslium.interactions.InteractionManager;
+import net.solmey.eslium.util.InteractionManager;
 
 public class PacketHandler {
 

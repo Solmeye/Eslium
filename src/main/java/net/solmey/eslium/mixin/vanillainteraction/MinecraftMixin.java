@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.Minecraft;
 import net.solmey.eslium.Eslium;
-import net.solmey.eslium.interactions.InteractionManager;
+import net.solmey.eslium.util.InteractionManager;
 
 @Mixin(Minecraft.class)
 public class MinecraftMixin {
