@@ -1,4 +1,4 @@
-package net.solmey.eslium.predictions;
+package net.solmey.eslium.server;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
