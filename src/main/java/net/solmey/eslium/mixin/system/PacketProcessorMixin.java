@@ -24,7 +24,7 @@ public class PacketProcessorMixin {
     private void eslium$handleBEFORE(CallbackInfo ci) {
         if (!Eslium.shouldWork()) return;
 
-        ListenerAndPacket listenerAndPacketAccessor = (ListenerAndPacket) (Object) this;
+        ListenerAndPacket<?> listenerAndPacketAccessor = (ListenerAndPacket<?>) (Object) this;
         Packet<?> packet = listenerAndPacketAccessor.packet;
 
         PacketHandler.head(packet);
@@ -41,7 +41,7 @@ public class PacketProcessorMixin {
     private void eslium$handleAFTER(CallbackInfo ci) {
         if (!Eslium.shouldWork()) return;
 
-        ListenerAndPacket listenerAndPacketAccessor = (ListenerAndPacket) (Object) this;
+        ListenerAndPacket<?> listenerAndPacketAccessor = (ListenerAndPacket<?>) (Object) this;
         Packet<?> packet = listenerAndPacketAccessor.packet;
 
         PacketHandler.tail(packet);
