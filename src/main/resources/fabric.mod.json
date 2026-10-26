@@ -13,7 +13,7 @@
 	},
   "license": "${license}",
   "icon": "${icon}",
-  "environment": "client",
+  "environment": "*",
   "entrypoints": {},
   "mixins": ["${id}.mixins.json"],
   "depends": {
