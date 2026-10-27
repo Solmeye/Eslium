@@ -29,7 +29,7 @@ public class ConfigManager {
             configDir = new File(serverRoot, "config");
         }
 
-        file = configDir.toPath().resolve(Eslium.id + ".json");
+        file = configDir.toPath().resolve(Eslium.MOD_ID + ".json");
 
         if (!configDir.exists()) {
             configDir.mkdirs();

@@ -8,7 +8,7 @@ import net.solmey.eslium.config.ConfigManager;
 @Mod("eslium")
 public class Eslium {
 
-    public static String id = "eslium";
+   	public static final String MOD_ID = "eslium";
 
     public static boolean shouldWork() {
         Minecraft mc = Minecraft.getInstance();
