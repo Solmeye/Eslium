@@ -22,7 +22,7 @@ import net.minecraft.world.level.block.state.properties.RailShape;
 import net.minecraft.world.phys.Vec3;
 import net.solmey.eslium.Eslium;
 import net.solmey.eslium.config.ConfigManager;
-import net.solmey.eslium.data.MixinMode;
+import net.solmey.eslium.data.Data;
 import net.solmey.eslium.server.SimulatedLevel;
 
 @Mixin(MinecartItem.class)
@@ -36,7 +36,7 @@ public class MinecartItemMixin {
     private void eslium$useOn(UseOnContext context, CallbackInfoReturnable<InteractionResult> callbackInfoReturnable) {
         if (!Eslium.shouldWork())
             return;
-        if(!MixinMode.mixinMode)
+        if(!Data.mixinMode)
             return;
 
         if(!ConfigManager.getConfig().minecart.enabled)

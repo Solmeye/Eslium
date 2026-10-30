@@ -19,7 +19,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.solmey.eslium.Eslium;
 import net.solmey.eslium.config.ConfigManager;
-import net.solmey.eslium.data.MixinMode;
+import net.solmey.eslium.data.Data;
 import net.solmey.eslium.server.SimulatedLevel;
 
 @Mixin(EndCrystalItem.class)
@@ -33,7 +33,7 @@ public class EndCrystalItemMixin {
     private void eslium$useOn(UseOnContext context, CallbackInfoReturnable<InteractionResult> callbackInfoReturnable) {
         if (!Eslium.shouldWork())
             return;
-        if(!MixinMode.mixinMode)
+        if(!Data.mixinMode)
             return;
 
         if(!ConfigManager.getConfig().crystal.enabled)

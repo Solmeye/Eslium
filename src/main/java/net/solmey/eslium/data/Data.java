@@ -14,6 +14,8 @@ public class Data {
     public static List<Packet<?>>                           predictedPackets    = new ArrayList<>();    // Simulated packets to extract and package in predictions
     public static List<PacketPrediction>                    predictions         = new ArrayList<>();    // Predictions
 
+    public static boolean mixinMode = false;
+
     public static void extractPackets(List<Packet<?>> list) {
         List<Packet<?>> tempList = new ArrayList<>();
         tempList.addAll(list);

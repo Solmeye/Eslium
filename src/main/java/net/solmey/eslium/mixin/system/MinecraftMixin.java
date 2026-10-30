@@ -19,7 +19,6 @@ import net.minecraft.util.Util;
 import net.solmey.eslium.Eslium;
 import net.solmey.eslium.config.ConfigManager;
 import net.solmey.eslium.data.Data;
-import net.solmey.eslium.data.MixinMode;
 import net.solmey.eslium.data.PacketPrediction;
 import net.solmey.eslium.server.SimulatedInventory;
 import net.solmey.eslium.server.SimulatedLevel;
@@ -43,7 +42,7 @@ public class MinecraftMixin {
         LocalPlayer player = Minecraft.getInstance().player;
         ClientLevel clientLevel = (ClientLevel) player.level();
 
-        MixinMode.mixinMode = true;
+        Data.mixinMode = true;
         InteractionManager.blockthread();
         InteractionManager.addAllPredictions();
 
@@ -69,7 +68,7 @@ public class MinecraftMixin {
 
 
         InteractionManager.unblockthread();
-        MixinMode.mixinMode = false;
+        Data.mixinMode = false;
 
 
 
