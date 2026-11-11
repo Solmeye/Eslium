@@ -19,7 +19,6 @@
     "vanillainteraction.ClientLevelMixin"
   ],
   "server": [],
-
   "injectors": {
     "defaultRequire": 1
   },
