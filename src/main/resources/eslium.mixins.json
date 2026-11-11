@@ -2,7 +2,8 @@
   "required": true,
   "package": "${group}.mixin",
   "compatibilityLevel": "JAVA_${java_target}",
-  "mixins": [
+  "mixins": [],
+  "client": [
     "entrypoint.MinecraftMixin",
 
     "predictions.crystal.EndCrystalItemMixin",
@@ -17,6 +18,8 @@
     "vanillainteraction.MinecraftMixin",
     "vanillainteraction.ClientLevelMixin"
   ],
+  "server": [],
+
   "injectors": {
     "defaultRequire": 1
   },
