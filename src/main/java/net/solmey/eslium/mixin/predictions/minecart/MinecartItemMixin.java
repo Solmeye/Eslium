@@ -38,56 +38,51 @@ public class MinecartItemMixin {
             return;
         if(!MixinMode.mixinMode)
             return;
-
         if(!ConfigManager.getConfig().minecart.enabled)
             return;
 
-
-
-        MinecartItem minecartItem = (MinecartItem) (Object) this;
-
         Level level = context.getLevel();
-		BlockPos pos = context.getClickedPos();
-		BlockState blockState = level.getBlockState(pos);
-		if (!blockState.is(BlockTags.RAILS)) {
-			callbackInfoReturnable.setReturnValue(InteractionResult.FAIL);
-			return;
-		}
+        BlockPos pos = context.getClickedPos();
+        BlockState blockState = level.getBlockState(pos);
+        if (!blockState.is(BlockTags.RAILS)) {
+            callbackInfoReturnable.setReturnValue(InteractionResult.FAIL);
+            return;
+        }
 
-		ItemStack itemStack = context.getItemInHand();
-		RailShape shape = blockState.getBlock() instanceof BaseRailBlock
-			? blockState.getValue(((BaseRailBlock)blockState.getBlock()).getShapeProperty())
-			: RailShape.NORTH_SOUTH;
-		double offset = 0.0;
-		if (shape.isSlope()) {
-			offset = 0.5;
-		}
+        ItemStack itemStack = context.getItemInHand();
+        RailShape shape = blockState.getBlock() instanceof BaseRailBlock
+            ? (RailShape)blockState.getValue(((BaseRailBlock)blockState.getBlock()).getShapeProperty())
+            : RailShape.NORTH_SOUTH;
+        double offset = 0.0;
+        if (shape.isSlope()) {
+            offset = 0.5;
+        }
 
-		Vec3 spawnPos = new Vec3(pos.getX() + 0.5, pos.getY() + 0.0625 + offset, pos.getZ() + 0.5);
-		AbstractMinecart cart = AbstractMinecart.createMinecart(
-			level, spawnPos.x, spawnPos.y, spawnPos.z, minecartItem.type, EntitySpawnReason.DISPENSER, itemStack, context.getPlayer()
-		);
-		if (cart == null) {
-			callbackInfoReturnable.setReturnValue(InteractionResult.FAIL);
-			return;
-		}
+        Vec3 spawnPos = new Vec3(pos.getX() + 0.5, pos.getY() + 0.0625 + offset, pos.getZ() + 0.5);
+        AbstractMinecart cart = AbstractMinecart.createMinecart(
+            level, spawnPos.x, spawnPos.y, spawnPos.z, EntitySpawnReason.DISPENSER, itemStack, context.getPlayer()
+        );
+        if (cart == null) {
+            callbackInfoReturnable.setReturnValue(InteractionResult.FAIL);
+            return;
+        }
 
-		if (AbstractMinecart.useExperimentalMovement(level)) {
-			for (Entity entity : level.getEntities(null, cart.getBoundingBox())) {
-				if (entity instanceof AbstractMinecart) {
-					callbackInfoReturnable.setReturnValue(InteractionResult.FAIL);
-					return;
-				}
-			}
-		}
+        if (AbstractMinecart.useExperimentalMovement(level)) {
+            for (Entity entity : level.getEntities(null, cart.getBoundingBox())) {
+                if (entity instanceof AbstractMinecart) {
+                    callbackInfoReturnable.setReturnValue(InteractionResult.FAIL);
+                    return;
+                }
+            }
+        }
 
-		//if (level instanceof ServerLevel serverLevel) {
-		    SimulatedLevel.addEntity( (ClientLevel) level, cart);
-			//serverLevel.gameEvent(GameEvent.ENTITY_PLACE, pos, GameEvent.Context.of(context.getPlayer(), serverLevel.getBlockState(pos.below())));
-		//}
+        if (true) { // if (level instanceof ServerLevel serverLevel) {
+            SimulatedLevel.addEntity( (ClientLevel) level, cart);
+            //serverLevel.gameEvent(GameEvent.ENTITY_PLACE, pos, Context.of(context.getPlayer(), serverLevel.getBlockState(pos.below())));
+        }
 
-		itemStack.shrink(1);
-		callbackInfoReturnable.setReturnValue(InteractionResult.SUCCESS);
-		return;
+        itemStack.shrink(1);
+        callbackInfoReturnable.setReturnValue(InteractionResult.SUCCESS);
+        return;
 	}
 }
